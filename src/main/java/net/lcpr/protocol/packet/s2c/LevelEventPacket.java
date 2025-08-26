@@ -2,11 +2,12 @@ package net.lcpr.protocol.packet.s2c;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.lcpr.protocol.ByteBufferUtils;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.Vec;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -17,19 +18,19 @@ public class LevelEventPacket extends Packet {
     private boolean globalEvent;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        type = byteBuffer.getInt();
-        pos = Vec.i3.read(byteBuffer);
-        data = byteBuffer.getInt();
-        globalEvent = ByteBufferUtils.getBoolean(byteBuffer);
+    public void read(DataInputStream inputStream) throws IOException {
+        type = inputStream.readInt();
+        pos = Vec.i3.read(inputStream);
+        data = inputStream.readInt();
+        globalEvent = inputStream.readBoolean();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(type);
-        Vec.i3.write(byteBuffer, pos);
-        byteBuffer.putInt(data);
-        ByteBufferUtils.putBoolean(byteBuffer, globalEvent);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(type);
+        Vec.i3.write(outputStream, pos);
+        outputStream.writeInt(data);
+        outputStream.writeBoolean(globalEvent);
     }
 
     @Override

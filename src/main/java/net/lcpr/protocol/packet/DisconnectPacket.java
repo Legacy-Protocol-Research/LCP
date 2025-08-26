@@ -4,11 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.types.DisconnectReason;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 /**
- * DisconnectPacket is a S2C packet which once the client recieves, it will disconnect from the server,
- * showing the relevant disconnect reason provided in the packet.
+ * Unknown whether the packet is bi-directional or not
  */
 @Getter
 @Setter
@@ -16,13 +17,13 @@ public class DisconnectPacket extends Packet {
     private DisconnectReason disconnectReason;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        disconnectReason = DisconnectReason.fromId(byteBuffer.getInt());
+    public void read(DataInputStream inputStream) throws IOException {
+        disconnectReason = DisconnectReason.fromId(inputStream.readInt());
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(disconnectReason.getId());
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(disconnectReason.getId());
     }
 
     @Override

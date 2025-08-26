@@ -3,7 +3,9 @@ package net.lcpr.protocol.packet;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -11,13 +13,13 @@ public class ContainerClosePacket extends Packet {
     private byte containerId;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        containerId = byteBuffer.get();
+    public void read(DataInputStream inputStream) throws IOException {
+        containerId = inputStream.readByte();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.put(containerId);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeByte(containerId);
     }
 
     @Override

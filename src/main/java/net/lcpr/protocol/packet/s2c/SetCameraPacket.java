@@ -5,7 +5,8 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.VariableTypes;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 
 @Getter
 @Setter
@@ -13,12 +14,12 @@ public class SetCameraPacket extends Packet {
     private int id;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        id = VariableTypes.readInt(byteBuffer);
+    public void read(DataInputStream inputStream) {
+        id = VariableTypes.readInt(inputStream);
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        VariableTypes.writeInt(byteBuffer, id);
+    public void write(DataOutputStream outputStream) {
+        VariableTypes.writeInt(outputStream, id);
     }
 }

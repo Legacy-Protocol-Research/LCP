@@ -5,7 +5,9 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.VariableTypes;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -14,16 +16,16 @@ public class SetExperiencePacket extends Packet {
     private int experienceLevel, totalExperience;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        experienceProgress = byteBuffer.getFloat();
-        totalExperience = VariableTypes.readInt(byteBuffer);
-        experienceLevel = VariableTypes.readInt(byteBuffer);
+    public void read(DataInputStream inputStream) throws IOException {
+        experienceProgress = inputStream.readFloat();
+        totalExperience = VariableTypes.readInt(inputStream);
+        experienceLevel = VariableTypes.readInt(inputStream);
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putFloat(experienceProgress);
-        VariableTypes.writeInt(byteBuffer, totalExperience);
-        VariableTypes.writeInt(byteBuffer, experienceLevel);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeFloat(experienceProgress);
+        VariableTypes.writeInt(outputStream, totalExperience);
+        VariableTypes.writeInt(outputStream, experienceLevel);
     }
 }

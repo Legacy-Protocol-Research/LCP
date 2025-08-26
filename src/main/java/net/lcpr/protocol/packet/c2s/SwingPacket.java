@@ -5,7 +5,9 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.types.InteractionHand;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -13,12 +15,12 @@ public class SwingPacket extends Packet {
     private InteractionHand interactionHand;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        interactionHand = InteractionHand.values()[byteBuffer.get()];
+    public void read(DataInputStream inputStream) throws IOException {
+        interactionHand = InteractionHand.values()[inputStream.read()];
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.put((byte) interactionHand.ordinal());
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.write(interactionHand.ordinal());
     }
 }

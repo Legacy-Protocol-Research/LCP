@@ -5,7 +5,9 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.VariableTypes;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -14,14 +16,14 @@ public class CooldownPacket extends Packet {
     private int cooldown;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        itemId = VariableTypes.readInt(byteBuffer);
-        cooldown = VariableTypes.readInt(byteBuffer);
+    public void read(DataInputStream inputStream) throws IOException {
+        itemId = VariableTypes.readInt(inputStream);
+        cooldown = VariableTypes.readInt(inputStream);
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        VariableTypes.writeInt(byteBuffer, itemId);
-        VariableTypes.writeInt(byteBuffer, cooldown);
+    public void write(DataOutputStream outputStream) throws IOException {
+        VariableTypes.writeInt(outputStream, itemId);
+        VariableTypes.writeInt(outputStream, cooldown);
     }
 }

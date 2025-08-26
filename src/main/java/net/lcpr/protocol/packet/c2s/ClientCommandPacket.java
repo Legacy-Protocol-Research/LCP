@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -12,13 +14,13 @@ public class ClientCommandPacket extends Packet {
     private int commandId;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        commandId = byteBuffer.getInt();
+    public void read(DataInputStream inputStream) throws IOException {
+        commandId = inputStream.readInt();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(commandId);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(commandId);
     }
 
     @Override

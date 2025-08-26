@@ -5,7 +5,9 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.VariableTypes;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -21,71 +23,71 @@ public class SetBorderPacket extends Packet {
     private int dword_5c;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        dword_28 = byteBuffer.getInt();
+    public void read(DataInputStream inputStream) throws IOException {
+        dword_28 = inputStream.readInt();
         switch (dword_28) {
             case 0:
-                double_40 = byteBuffer.getDouble();
+                double_40 = inputStream.readDouble();
                 break;
             case 1:
-                double_48 = byteBuffer.getDouble();
-                double_40 = byteBuffer.getDouble();
-                qword_50 = VariableTypes.readLong(byteBuffer);
+                double_48 = inputStream.readDouble();
+                double_40 = inputStream.readDouble();
+                qword_50 = VariableTypes.readLong(inputStream);
                 break;
             case 2:
-                double_30 = byteBuffer.getDouble();
-                double_38 = byteBuffer.getDouble();
+                double_30 = inputStream.readDouble();
+                double_38 = inputStream.readDouble();
                 break;
             case 3:
-                double_30 = byteBuffer.getDouble();
-                double_38 = byteBuffer.getDouble();
-                double_48 = byteBuffer.getDouble();
-                double_40 = byteBuffer.getDouble();
-                qword_50 = VariableTypes.readLong(byteBuffer);
-                dword_2c = VariableTypes.readInt(byteBuffer);
-                dword_5c = VariableTypes.readInt(byteBuffer);
-                dword_58 = VariableTypes.readInt(byteBuffer);
+                double_30 = inputStream.readDouble();
+                double_38 = inputStream.readDouble();
+                double_48 = inputStream.readDouble();
+                double_40 = inputStream.readDouble();
+                qword_50 = VariableTypes.readLong(inputStream);
+                dword_2c = VariableTypes.readInt(inputStream);
+                dword_5c = VariableTypes.readInt(inputStream);
+                dword_58 = VariableTypes.readInt(inputStream);
                 break;
             case 4:
-                dword_58 = VariableTypes.readInt(byteBuffer);
+                dword_58 = VariableTypes.readInt(inputStream);
                 break;
             case 5:
-                dword_5c = VariableTypes.readInt(byteBuffer);
+                dword_5c = VariableTypes.readInt(inputStream);
                 break;
         }
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(dword_28);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(dword_28);
         switch (dword_28) {
             case 0:
-                byteBuffer.putDouble(double_40);
+                outputStream.writeDouble(double_40);
                 break;
             case 1:
-                byteBuffer.putDouble(double_48);
-                byteBuffer.putDouble(double_40);
-                VariableTypes.writeLong(byteBuffer, qword_50);
+                outputStream.writeDouble(double_48);
+                outputStream.writeDouble(double_40);
+                VariableTypes.writeLong(outputStream, qword_50);
                 break;
             case 2:
-                byteBuffer.putDouble(double_30);
-                byteBuffer.putDouble(double_38);
+                outputStream.writeDouble(double_30);
+                outputStream.writeDouble(double_38);
                 break;
             case 3:
-                byteBuffer.putDouble(double_30);
-                byteBuffer.putDouble(double_38);
-                byteBuffer.putDouble(double_48);
-                byteBuffer.putDouble(double_40);
-                VariableTypes.writeLong(byteBuffer, qword_50);
-                VariableTypes.writeInt(byteBuffer, dword_2c);
-                VariableTypes.writeInt(byteBuffer, dword_5c);
-                VariableTypes.writeInt(byteBuffer, dword_58);
+                outputStream.writeDouble(double_30);
+                outputStream.writeDouble(double_38);
+                outputStream.writeDouble(double_48);
+                outputStream.writeDouble(double_40);
+                VariableTypes.writeLong(outputStream, qword_50);
+                VariableTypes.writeInt(outputStream, dword_2c);
+                VariableTypes.writeInt(outputStream, dword_5c);
+                VariableTypes.writeInt(outputStream, dword_58);
                 break;
             case 4:
-                VariableTypes.writeInt(byteBuffer, dword_58);
+                VariableTypes.writeInt(outputStream, dword_58);
                 break;
             case 5:
-                VariableTypes.writeInt(byteBuffer, dword_5c);
+                VariableTypes.writeInt(outputStream, dword_5c);
                 break;
         }
     }

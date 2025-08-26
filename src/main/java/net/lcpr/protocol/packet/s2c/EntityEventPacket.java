@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -14,16 +16,16 @@ public class EntityEventPacket extends Packet {
     private int data;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        entityId = byteBuffer.getInt();
-        eventId = byteBuffer.get();
-        data = byteBuffer.getInt();
+    public void read(DataInputStream inputStream) throws IOException {
+        entityId = inputStream.readInt();
+        eventId = inputStream.readByte();
+        data = inputStream.readInt();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(entityId);
-        byteBuffer.put(eventId);
-        byteBuffer.putInt(data);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(entityId);
+        outputStream.writeByte(eventId);
+        outputStream.writeInt(data);
     }
 }

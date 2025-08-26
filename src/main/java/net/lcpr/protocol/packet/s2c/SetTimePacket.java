@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -13,15 +15,15 @@ public class SetTimePacket extends Packet {
     private long dayTime;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        gameTime = byteBuffer.getLong();
-        dayTime = byteBuffer.getLong();
+    public void read(DataInputStream inputStream) throws IOException {
+        gameTime = inputStream.readLong();
+        dayTime = inputStream.readLong();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putLong(gameTime);
-        byteBuffer.putLong(dayTime);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeLong(gameTime);
+        outputStream.writeLong(dayTime);
     }
 
     @Override

@@ -1,5 +1,8 @@
 package net.lcpr.protocol.utils;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 public class Vec {
@@ -13,18 +16,18 @@ public class Vec {
             this.z = z;
         }
 
-        public static f3 read(ByteBuffer byteBuffer) {
+        public static f3 read(DataInputStream inputStream) throws IOException {
             return new f3(
-                    byteBuffer.getFloat(),
-                    byteBuffer.getFloat(),
-                    byteBuffer.getFloat()
+                    inputStream.readFloat(),
+                    inputStream.readFloat(),
+                    inputStream.readFloat()
             );
         }
 
-        public static void write(ByteBuffer byteBuffer, f3 value) {
-            byteBuffer.putFloat(value.x);
-            byteBuffer.putFloat(value.y);
-            byteBuffer.putFloat(value.z);
+        public static void write(DataOutputStream outputStream, f3 value) throws IOException {
+            outputStream.writeFloat(value.x);
+            outputStream.writeFloat(value.y);
+            outputStream.writeFloat(value.z);
         }
     }
 
@@ -38,18 +41,18 @@ public class Vec {
             this.z = z;
         }
 
-        public static i3 read(ByteBuffer byteBuffer) {
+        public static i3 read(DataInputStream inputStream) throws IOException {
             return new i3(
-                    byteBuffer.getInt(),
-                    byteBuffer.getInt(),
-                    byteBuffer.getInt()
+                    inputStream.readInt(),
+                    inputStream.readInt(),
+                    inputStream.readInt()
             );
         }
 
-        public static void write(ByteBuffer byteBuffer, i3 value) {
-            byteBuffer.putInt(value.x);
-            byteBuffer.putInt(value.y);
-            byteBuffer.putInt(value.z);
+        public static void write(DataOutputStream outputStream, i3 value) throws IOException {
+            outputStream.writeInt(value.x);
+            outputStream.writeInt(value.y);
+            outputStream.writeInt(value.z);
         }
     }
 }

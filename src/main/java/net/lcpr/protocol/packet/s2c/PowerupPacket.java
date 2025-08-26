@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -13,15 +15,15 @@ public class PowerupPacket extends Packet {
     private int powerupTime;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        powerupId = byteBuffer.getInt();
-        powerupTime = byteBuffer.getInt();
+    public void read(DataInputStream inputStream) throws IOException {
+        powerupId = inputStream.readInt();
+        powerupTime = inputStream.readInt();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(powerupId);
-        byteBuffer.putInt(powerupTime);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(powerupId);
+        outputStream.writeInt(powerupTime);
     }
 
     @Override

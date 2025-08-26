@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 @Getter
@@ -12,13 +15,13 @@ public class KeepAlivePacket extends Packet {
     private int id;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        id = byteBuffer.getInt();
+    public void read(DataInputStream inputStream) throws IOException {
+        id = inputStream.readInt();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(id);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(id);
     }
 
     @Override

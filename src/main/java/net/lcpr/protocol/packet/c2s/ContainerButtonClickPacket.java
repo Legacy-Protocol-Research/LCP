@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -13,15 +15,15 @@ public class ContainerButtonClickPacket extends Packet {
     private int buttonId;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        containerId = byteBuffer.get();
-        buttonId = byteBuffer.get();
+    public void read(DataInputStream inputStream) throws IOException {
+        containerId = inputStream.readByte();
+        buttonId = inputStream.readByte();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.put((byte) containerId);
-        byteBuffer.put((byte) buttonId);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeByte(containerId);
+        outputStream.writeByte(buttonId);
     }
 
     @Override

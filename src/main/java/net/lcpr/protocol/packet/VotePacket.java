@@ -3,7 +3,9 @@ package net.lcpr.protocol.packet;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -14,18 +16,18 @@ public class VotePacket extends Packet {
     private int field_34;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        field_28 = byteBuffer.getInt();
-        field_2C = byteBuffer.get();
-        field_30 = byteBuffer.getInt();
-        field_34 = byteBuffer.getInt();
+    public void read(DataInputStream inputStream) throws IOException {
+        field_28 = inputStream.readInt();
+        field_2C = inputStream.readByte();
+        field_30 = inputStream.readInt();
+        field_34 = inputStream.readInt();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(field_28);
-        byteBuffer.put(field_2C);
-        byteBuffer.putInt(field_30);
-        byteBuffer.putInt(field_34);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(field_28);
+        outputStream.writeByte(field_2C);
+        outputStream.writeInt(field_30);
+        outputStream.writeInt(field_34);
     }
 }

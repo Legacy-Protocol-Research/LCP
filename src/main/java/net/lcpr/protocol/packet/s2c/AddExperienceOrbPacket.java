@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -16,21 +18,21 @@ public class AddExperienceOrbPacket extends Packet {
     private int value;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        id = byteBuffer.getInt();
-        x = byteBuffer.getInt();
-        y = byteBuffer.getInt();
-        z = byteBuffer.getInt();
-        value = byteBuffer.getShort();
+    public void read(DataInputStream inputStream) throws IOException {
+        id = inputStream.readInt();
+        x = inputStream.readInt();
+        y = inputStream.readInt();
+        z = inputStream.readInt();
+        value = inputStream.readShort();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(id);
-        byteBuffer.putInt(x);
-        byteBuffer.putInt(y);
-        byteBuffer.putInt(z);
-        byteBuffer.putShort((short) value);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(id);
+        outputStream.writeInt(x);
+        outputStream.writeInt(y);
+        outputStream.writeInt(z);
+        outputStream.writeShort((short) value);
     }
 
     @Override

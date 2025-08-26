@@ -1,13 +1,14 @@
 package net.lcpr.protocol.packet;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 
 public class GetInfoPacket extends Packet {
     @Override
-    public void read(ByteBuffer byteBuffer) {}
+    public void read(DataInputStream inputStream) {}
 
     @Override
-    public void write(ByteBuffer byteBuffer) {}
+    public void write(DataOutputStream outputStream) {}
 
     @Override
     public int getEstimatedSize() {

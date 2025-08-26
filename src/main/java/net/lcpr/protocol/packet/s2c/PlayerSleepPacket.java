@@ -6,7 +6,9 @@ import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.VariableTypes;
 import net.lcpr.protocol.utils.Vec;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -15,14 +17,14 @@ public class PlayerSleepPacket extends Packet {
     private Vec.i3 pos;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        playerId = VariableTypes.readInt(byteBuffer);
-        pos = Vec.i3.read(byteBuffer);
+    public void read(DataInputStream inputStream) throws IOException {
+        playerId = VariableTypes.readInt(inputStream);
+        pos = Vec.i3.read(inputStream);
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        VariableTypes.writeInt(byteBuffer, playerId);
-        Vec.i3.write(byteBuffer, pos);
+    public void write(DataOutputStream outputStream) throws IOException {
+        VariableTypes.writeInt(outputStream, playerId);
+        Vec.i3.write(outputStream, pos);
     }
 }

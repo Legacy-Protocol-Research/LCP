@@ -5,7 +5,9 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.types.Difficulty;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -13,12 +15,12 @@ public class ChangeDifficultyPacket extends Packet {
     private Difficulty difficulty;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        difficulty = Difficulty.values()[byteBuffer.get()];
+    public void read(DataInputStream inputStream) throws IOException {
+        difficulty = Difficulty.values()[inputStream.readUnsignedByte()];
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.put((byte) difficulty.ordinal());
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeByte(difficulty.ordinal());
     }
 }

@@ -5,7 +5,9 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.VariableTypes;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -17,36 +19,36 @@ public class PlayerCombatPacket extends Packet {
     private String message;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        event = byteBuffer.getInt();
+    public void read(DataInputStream inputStream) throws IOException {
+        event = inputStream.readInt();
 
         if (event == 1) {
-            duration = VariableTypes.readInt(byteBuffer);
-            killerId = byteBuffer.getInt();
+            duration = VariableTypes.readInt(inputStream);
+            killerId = inputStream.readInt();
             return;
         }
 
         if (event == 2) {
-            playerId = VariableTypes.readInt(byteBuffer);
-            killerId = byteBuffer.getInt();
-            message = this.readUTF(byteBuffer, 0x7FFF);
+            playerId = VariableTypes.readInt(inputStream);
+            killerId = inputStream.readInt();
+            message = this.readUTF(inputStream, 0x7FFF);
         }
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(event);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(event);
 
         if (event == 1) {
-            VariableTypes.writeInt(byteBuffer, duration);
-            byteBuffer.putInt(killerId);
+            VariableTypes.writeInt(outputStream, duration);
+            outputStream.writeInt(killerId);
             return;
         }
 
         if (event == 2) {
-            VariableTypes.writeInt(byteBuffer, playerId);
-            byteBuffer.putInt(killerId);
-            this.writeUTF(byteBuffer, message);
+            VariableTypes.writeInt(outputStream, playerId);
+            outputStream.writeInt(killerId);
+            this.writeUTF(outputStream, message);
         }
     }
 }

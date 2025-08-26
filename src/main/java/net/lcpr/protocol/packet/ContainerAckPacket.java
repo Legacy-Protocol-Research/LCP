@@ -2,10 +2,11 @@ package net.lcpr.protocol.packet;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.lcpr.protocol.ByteBufferUtils;
 import net.lcpr.protocol.utils.Side;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -15,17 +16,17 @@ public class ContainerAckPacket extends Packet {
     private boolean accepted;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        containerId = byteBuffer.get();
-        uid = byteBuffer.getShort();
-        accepted = ByteBufferUtils.getBoolean(byteBuffer);
+    public void read(DataInputStream inputStream) throws IOException {
+        containerId = inputStream.readByte();
+        uid = inputStream.readShort();
+        accepted = inputStream.readBoolean();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.put((byte) containerId);
-        byteBuffer.putShort(uid);
-        ByteBufferUtils.putBoolean(byteBuffer, accepted);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeByte(containerId);
+        outputStream.writeShort(uid);
+        outputStream.writeBoolean(accepted);
     }
 
     @Override

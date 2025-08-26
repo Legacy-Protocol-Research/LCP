@@ -2,9 +2,11 @@ package net.lcpr.protocol.packet;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.lcpr.protocol.ByteBufferUtils;
+import net.lcpr.protocol.DataStreamUtils;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -13,15 +15,15 @@ public class PlayerReadyPacket extends Packet {
     private boolean ready;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        playerId = ByteBufferUtils.getUInt(byteBuffer);
-        ready = ByteBufferUtils.getBoolean(byteBuffer);
+    public void read(DataInputStream inputStream) throws IOException {
+        playerId = DataStreamUtils.readUnsignedInt(inputStream);
+        ready = inputStream.readBoolean();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        ByteBufferUtils.putUInt(byteBuffer, playerId);
-        ByteBufferUtils.putBoolean(byteBuffer, ready);
+    public void write(DataOutputStream outputStream) throws IOException {
+        DataStreamUtils.writeUnsignedInt(outputStream, playerId);
+        outputStream.writeBoolean(ready);
     }
 
     @Override

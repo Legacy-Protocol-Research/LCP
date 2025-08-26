@@ -4,6 +4,9 @@ import lombok.Getter;
 import net.lcpr.protocol.LegacyConsoleProtocol;
 import net.lcpr.protocol.utils.Side;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 public abstract class Packet {
@@ -16,16 +19,16 @@ public abstract class Packet {
     private Side origin;
 
     /**
-     * Reads the ByteBuffer to generate the current packet
-     * @param byteBuffer The ByteBuffer containing the packet data
+     * Reads the DataInputStream to generate the current packet
+     * @param inputStream The DataInputStream containing the packet data
      */
-    public abstract void read(ByteBuffer byteBuffer);
+    public abstract void read(DataInputStream inputStream) throws IOException;
 
     /**
-     * Writes the current packet to the ByteBuffer
-     * @param byteBuffer The ByteBuffer to be written to
+     * Writes the current packet to the DataOutputStream
+     * @param outputStream The DataOutputStream to be written to
      */
-    public abstract void write(ByteBuffer byteBuffer);
+    public abstract void write(DataOutputStream outputStream) throws IOException;
 
     public int getEstimatedSize() {
         return 8;
@@ -40,13 +43,13 @@ public abstract class Packet {
     }
 
     /**
-     * Reads a UTF-16 string from the ByteBuffer
-     * @param byteBuffer The ByteBuffer to read from
+     * Reads a UTF-16 string from the DataInputStream
+     * @param inputStream The DataInputStream to read from
      * @param maxLength The max length of the string
      * @return The result string
      */
-    public String readUTF(ByteBuffer byteBuffer, int maxLength) {
-        short length = byteBuffer.getShort();
+    public String readUTF(DataInputStream inputStream, int maxLength) throws IOException {
+        short length = inputStream.readShort();
 
         if (length > maxLength) {
             LegacyConsoleProtocol.LOGGER.warn("Received string length longer than maximum allowed ({} > {})", length, maxLength);
@@ -54,26 +57,22 @@ public abstract class Packet {
 
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < length; ++i) {
-            builder.append(byteBuffer.getChar());
+            builder.append(inputStream.readChar());
         }
 
         return builder.toString();
     }
 
     /**
-     * Writes a UTF-16 string to the ByteBuffer
-     * @param byteBuffer The ByteBuffer to write to
+     * Writes a UTF-16 string to the DataOutputStream
+     * @param outputStream The DataOutputStream to write to
      * @param value The string to write
      */
-    public void writeUTF(ByteBuffer byteBuffer, String value) {
-        if (value.length() > Short.MAX_VALUE) {
-            // TODO do something about this
-        }
-
-        byteBuffer.putShort((short) value.length());
+    public void writeUTF(DataOutputStream outputStream, String value) throws IOException {
+        outputStream.writeShort(value.length());
 
         for (char character : value.toCharArray()) {
-            byteBuffer.putChar(character);
+            outputStream.writeChar(character);
         }
     }
 }

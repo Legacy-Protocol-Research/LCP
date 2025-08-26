@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 @Getter
@@ -15,12 +18,12 @@ public class ChatPacket extends Packet {
     private String message;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        message = this.readUTF(byteBuffer, 256);
+    public void read(DataInputStream inputStream) throws IOException {
+        message = this.readUTF(inputStream, 256);
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        writeUTF(byteBuffer, message);
+    public void write(DataOutputStream outputStream) throws IOException {
+        this.writeUTF(outputStream, message);
     }
 }

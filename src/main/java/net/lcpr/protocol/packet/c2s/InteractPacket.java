@@ -8,7 +8,9 @@ import net.lcpr.protocol.types.InteractionHand;
 import net.lcpr.protocol.utils.VariableTypes;
 import net.lcpr.protocol.utils.Vec;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -19,29 +21,29 @@ public class InteractPacket extends Packet {
     private InteractionHand interactionHand;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        target = VariableTypes.readInt(byteBuffer);
-        action = Action.values()[byteBuffer.getInt()];
+    public void read(DataInputStream inputStream) throws IOException {
+        target = VariableTypes.readInt(inputStream);
+        action = Action.values()[inputStream.readInt()];
         if (action.equals(Action.INTERACT_AT)) {
-            location = Vec.f3.read(byteBuffer);
+            location = Vec.f3.read(inputStream);
         }
 
         if (action.equals(Action.INTERACT) || action.equals(Action.INTERACT_AT)) {
-            interactionHand = InteractionHand.values()[byteBuffer.get()];
+            interactionHand = InteractionHand.values()[inputStream.readByte()];
         }
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        VariableTypes.writeInt(byteBuffer, target);
-        byteBuffer.putInt(action.ordinal());
+    public void write(DataOutputStream outputStream) throws IOException {
+        VariableTypes.writeInt(outputStream, target);
+        outputStream.writeInt(action.ordinal());
 
         if (action.equals(Action.INTERACT_AT)) {
-            Vec.f3.write(byteBuffer, location);
+            Vec.f3.write(outputStream, location);
         }
 
         if (action.equals(Action.INTERACT) || action.equals(Action.INTERACT_AT)) {
-            byteBuffer.put((byte) interactionHand.ordinal());
+            outputStream.writeByte(interactionHand.ordinal());
         }
     }
 

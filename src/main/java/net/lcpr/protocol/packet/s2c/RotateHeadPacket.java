@@ -5,7 +5,9 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.VariableTypes;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -14,15 +16,15 @@ public class RotateHeadPacket extends Packet {
     private byte yHeadRot;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        entityId = VariableTypes.readInt(byteBuffer);
-        yHeadRot = byteBuffer.get();
+    public void read(DataInputStream inputStream) throws IOException {
+        entityId = VariableTypes.readInt(inputStream);
+        yHeadRot = inputStream.readByte();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        VariableTypes.writeInt(byteBuffer, entityId);
-        byteBuffer.putInt(yHeadRot);
+    public void write(DataOutputStream outputStream) throws IOException {
+        VariableTypes.writeInt(outputStream, entityId);
+        outputStream.writeByte(yHeadRot);
     }
 
     @Override

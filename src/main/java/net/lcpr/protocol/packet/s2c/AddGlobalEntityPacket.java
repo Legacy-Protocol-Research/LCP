@@ -5,7 +5,9 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.Vec;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -15,17 +17,17 @@ public class AddGlobalEntityPacket extends Packet {
     private Vec.i3 pos;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        id = byteBuffer.getInt();
-        type = byteBuffer.get();
-        pos = Vec.i3.read(byteBuffer);
+    public void read(DataInputStream inputStream) throws IOException {
+        id = inputStream.readInt();
+        type = inputStream.readByte();
+        pos = Vec.i3.read(inputStream);
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(id);
-        byteBuffer.put(type);
-        Vec.i3.write(byteBuffer, pos);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(id);
+        outputStream.writeByte(type);
+        Vec.i3.write(outputStream, pos);
     }
 
     @Override

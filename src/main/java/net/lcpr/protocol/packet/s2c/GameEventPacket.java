@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -14,17 +16,17 @@ public class GameEventPacket extends Packet {
     private int playerIndex;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        event = byteBuffer.get();
-        param = byteBuffer.getFloat();
-        playerIndex = byteBuffer.getInt();
+    public void read(DataInputStream inputStream) throws IOException {
+        event = inputStream.readUnsignedByte();
+        param = inputStream.readFloat();
+        playerIndex = inputStream.readInt();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.put((byte) event);
-        byteBuffer.putFloat(param);
-        byteBuffer.putInt(playerIndex);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeByte(event);
+        outputStream.writeFloat(param);
+        outputStream.writeInt(playerIndex);
     }
 
     @Override

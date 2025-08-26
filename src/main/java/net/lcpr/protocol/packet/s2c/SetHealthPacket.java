@@ -5,7 +5,9 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.VariableTypes;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -13,28 +15,28 @@ public class SetHealthPacket extends Packet {
     private float health;
     private int food;
     private float saturation;
-    private int word18;
-    private int word1C;
-    private int word20;
+    private int dword18;
+    private int dword1C;
+    private int dword20;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        health = byteBuffer.getFloat();
-        food = VariableTypes.readInt(byteBuffer);
-        saturation = byteBuffer.getFloat();
-        word18 = byteBuffer.get() & 0xFF;
-        word1C = VariableTypes.readInt(byteBuffer);
-        word20 = VariableTypes.readInt(byteBuffer);
+    public void read(DataInputStream inputStream) throws IOException {
+        health = inputStream.readFloat();
+        food = VariableTypes.readInt(inputStream);
+        saturation = inputStream.readFloat();
+        dword18 = inputStream.readByte() & 0xFF;
+        dword1C = VariableTypes.readInt(inputStream);
+        dword20 = VariableTypes.readInt(inputStream);
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putFloat(health);
-        VariableTypes.writeInt(byteBuffer, food);
-        byteBuffer.putFloat(saturation);
-        VariableTypes.writeInt(byteBuffer, word18);
-        byteBuffer.put((byte) word1C);
-        byteBuffer.put((byte) word20);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeFloat(health);
+        VariableTypes.writeInt(outputStream, food);
+        outputStream.writeFloat(saturation);
+        outputStream.writeByte(dword18);
+        VariableTypes.writeInt(outputStream, dword1C);
+        VariableTypes.writeInt(outputStream, dword20);
     }
 
     @Override

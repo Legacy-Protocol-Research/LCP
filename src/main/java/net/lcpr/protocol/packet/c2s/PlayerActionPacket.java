@@ -6,7 +6,9 @@ import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.types.Direction;
 import net.lcpr.protocol.utils.Vec;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -17,19 +19,19 @@ public class PlayerActionPacket extends Packet {
     private int useTime;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        action = byteBuffer.getInt();
-        pos = Vec.i3.read(byteBuffer);
-        direction = Direction.values()[byteBuffer.get()];
-        useTime = byteBuffer.getInt();
+    public void read(DataInputStream inputStream) throws IOException {
+        action = inputStream.readInt();
+        pos = Vec.i3.read(inputStream);
+        direction = Direction.values()[inputStream.readUnsignedByte()];
+        useTime = inputStream.readInt();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(action);
-        Vec.i3.write(byteBuffer, pos);
-        byteBuffer.put((byte) direction.ordinal());
-        byteBuffer.putInt(useTime);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(action);
+        Vec.i3.write(outputStream, pos);
+        outputStream.writeByte(direction.ordinal());
+        outputStream.writeInt(useTime);
     }
 
     @Override

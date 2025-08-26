@@ -7,7 +7,9 @@ import net.lcpr.protocol.types.Direction;
 import net.lcpr.protocol.types.InteractionHand;
 import net.lcpr.protocol.utils.Vec;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -18,18 +20,18 @@ public class UseItemOnPacket extends Packet {
     private Vec.f3 click;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        pos = Vec.i3.read(byteBuffer);
-        direction = Direction.values()[byteBuffer.get()];
-        interactionHand = InteractionHand.values()[byteBuffer.get()];
-        click = Vec.f3.read(byteBuffer);
+    public void read(DataInputStream inputStream) throws IOException {
+        pos = Vec.i3.read(inputStream);
+        direction = Direction.values()[inputStream.readByte()];
+        interactionHand = InteractionHand.values()[inputStream.readByte()];
+        click = Vec.f3.read(inputStream);
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        Vec.i3.write(byteBuffer, pos);
-        byteBuffer.put((byte) direction.ordinal());
-        byteBuffer.put((byte) interactionHand.ordinal());
-        Vec.f3.write(byteBuffer, click);
+    public void write(DataOutputStream outputStream) throws IOException {
+        Vec.i3.write(outputStream, pos);
+        outputStream.writeByte(direction.ordinal());
+        outputStream.writeByte(interactionHand.ordinal());
+        Vec.f3.write(outputStream, click);
     }
 }

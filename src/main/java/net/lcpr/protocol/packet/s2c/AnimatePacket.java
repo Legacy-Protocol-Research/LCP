@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -13,15 +15,15 @@ public class AnimatePacket extends Packet {
     private byte action;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        id = byteBuffer.getInt();
-        action = byteBuffer.get();
+    public void read(DataInputStream inputStream) throws IOException {
+        id = inputStream.readInt();
+        action = inputStream.readByte();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(id);
-        byteBuffer.put(action);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(id);
+        outputStream.writeByte(action);
     }
 
     @Override

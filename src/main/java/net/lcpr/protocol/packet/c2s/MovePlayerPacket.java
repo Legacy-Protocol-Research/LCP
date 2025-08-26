@@ -4,22 +4,24 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public abstract class MovePlayerPacket extends Packet {
     private boolean onGround;
     private boolean bool3B;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        byte data = byteBuffer.get();
+    public void read(DataInputStream inputStream) throws IOException {
+        byte data = inputStream.readByte();
         onGround = (data & 1) == 1;
         bool3B = ((data >> 1) & 1) == 1;
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.put((byte) ((onGround ? 1 : 0) | (bool3B ? 1 : 0)));
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeByte((onGround ? 1 : 0) | (bool3B ? 1 : 0));
     }
 
     @Getter
@@ -28,19 +30,19 @@ public abstract class MovePlayerPacket extends Packet {
         private double x, y, z;
 
         @Override
-        public void read(ByteBuffer byteBuffer) {
-            x = byteBuffer.getDouble();
-            y = byteBuffer.getDouble();
-            z = byteBuffer.getDouble();
-            this.read(byteBuffer);
+        public void read(DataInputStream inputStream) throws IOException {
+            x = inputStream.readDouble();
+            y = inputStream.readDouble();
+            z = inputStream.readDouble();
+            super.read(inputStream);
         }
 
         @Override
-        public void write(ByteBuffer byteBuffer) {
-            byteBuffer.putDouble(x);
-            byteBuffer.putDouble(y);
-            byteBuffer.putDouble(z);
-            this.write(byteBuffer);
+        public void write(DataOutputStream outputStream) throws IOException {
+            outputStream.writeDouble(x);
+            outputStream.writeDouble(y);
+            outputStream.writeDouble(z);
+            super.write(outputStream);
         }
     }
 
@@ -50,17 +52,17 @@ public abstract class MovePlayerPacket extends Packet {
         private float xRot, yRot;
 
         @Override
-        public void read(ByteBuffer byteBuffer) {
-            xRot = byteBuffer.getFloat();
-            yRot = byteBuffer.getFloat();
-            this.read(byteBuffer);
+        public void read(DataInputStream inputStream) throws IOException {
+            xRot = inputStream.readFloat();
+            yRot = inputStream.readFloat();
+            super.read(inputStream);
         }
 
         @Override
-        public void write(ByteBuffer byteBuffer) {
-            byteBuffer.putFloat(xRot);
-            byteBuffer.putFloat(yRot);
-            this.write(byteBuffer);
+        public void write(DataOutputStream outputStream) throws IOException {
+            outputStream.writeFloat(xRot);
+            outputStream.writeFloat(yRot);
+            super.write(outputStream);
         }
     }
 
@@ -71,23 +73,23 @@ public abstract class MovePlayerPacket extends Packet {
         private float xRot, yRot;
 
         @Override
-        public void read(ByteBuffer byteBuffer) {
-            x = byteBuffer.getDouble();
-            y = byteBuffer.getDouble();
-            z = byteBuffer.getDouble();
-            xRot = byteBuffer.getFloat();
-            yRot = byteBuffer.getFloat();
-            this.read(byteBuffer);
+        public void read(DataInputStream inputStream) throws IOException {
+            x = inputStream.readDouble();
+            y = inputStream.readDouble();
+            z = inputStream.readDouble();
+            xRot = inputStream.readFloat();
+            yRot = inputStream.readFloat();
+            super.read(inputStream);
         }
 
         @Override
-        public void write(ByteBuffer byteBuffer) {
-            byteBuffer.putDouble(x);
-            byteBuffer.putDouble(y);
-            byteBuffer.putDouble(z);
-            byteBuffer.putFloat(xRot);
-            byteBuffer.putFloat(yRot);
-            this.write(byteBuffer);
+        public void write(DataOutputStream outputStream) throws IOException {
+            outputStream.writeDouble(x);
+            outputStream.writeDouble(y);
+            outputStream.writeDouble(z);
+            outputStream.writeFloat(xRot);
+            outputStream.writeFloat(yRot);
+            super.write(outputStream);
         }
     }
 }

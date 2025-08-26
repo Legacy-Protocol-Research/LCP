@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -14,16 +16,16 @@ public class ContainerSetDataPacket extends Packet {
     private int value;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        containerId = byteBuffer.get();
-        id = byteBuffer.getShort();
-        value = byteBuffer.getShort();
+    public void read(DataInputStream inputStream) throws IOException {
+        containerId = inputStream.readUnsignedByte();
+        id = inputStream.readShort();
+        value = inputStream.readShort();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.put((byte) containerId);
-        byteBuffer.putShort((short) id);
-        byteBuffer.putShort((short) value);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeByte(containerId);
+        outputStream.writeShort(id);
+        outputStream.writeShort(value);
     }
 }

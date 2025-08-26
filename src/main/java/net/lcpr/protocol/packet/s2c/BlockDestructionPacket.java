@@ -5,7 +5,9 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.Vec;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -15,17 +17,17 @@ public class BlockDestructionPacket extends Packet {
     private int progress;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        id = byteBuffer.getInt();
-        pos = Vec.i3.read(byteBuffer);
-        progress = byteBuffer.get() & 0xFF;
+    public void read(DataInputStream inputStream) throws IOException {
+        id = inputStream.readInt();
+        pos = Vec.i3.read(inputStream);
+        progress = inputStream.readUnsignedByte() & 0xFF;
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(id);
-        Vec.i3.write(byteBuffer, pos);
-        byteBuffer.put((byte) progress);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(id);
+        Vec.i3.write(outputStream, pos);
+        outputStream.writeByte(progress);
     }
 
     @Override

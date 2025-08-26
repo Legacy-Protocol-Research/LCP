@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -13,19 +15,32 @@ public class AwardStatPacket extends Packet {
     private String data;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        stat = byteBuffer.getInt();
+    public void read(DataInputStream inputStream) throws IOException {
+        stat = inputStream.readInt();
 
-        int size = byteBuffer.getInt();
+        int size = inputStream.readInt();
         if (size < 1) return;
 
-        // TODO find out how to writeBytes
+        byte[] dataArray = new byte[size];
+
+        inputStream.readFully(dataArray);
+
+        char[] characters = new char[size];
+
+        for (int i = 0; i < size; i++) {
+            characters[i] = (char) dataArray[i];
+        }
+
+        data = new String(characters);
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putInt(stat);
-        byteBuffer.putInt(data.length());
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeInt(stat);
+        outputStream.writeInt(data.length());
+        if (!data.isEmpty()) {
+            outputStream.writeBytes(data);
+        }
     }
 
     @Override

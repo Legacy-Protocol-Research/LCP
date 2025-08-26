@@ -3,7 +3,9 @@ package net.lcpr.protocol.packet;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.nio.ByteBuffer;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 /**
  * @c2s This will update the server on where the vehicle the client is currently riding is.
@@ -34,20 +36,20 @@ public class MoveVehiclePacket extends Packet {
     private float yRot;
 
     @Override
-    public void read(ByteBuffer byteBuffer) {
-        x = byteBuffer.getDouble();
-        y = byteBuffer.getDouble();
-        z = byteBuffer.getDouble();
-        yRot = byteBuffer.getFloat();
-        xRot = byteBuffer.getFloat();
+    public void read(DataInputStream inputStream) throws IOException {
+        x = inputStream.readDouble();
+        y = inputStream.readDouble();
+        z = inputStream.readDouble();
+        yRot = inputStream.readFloat();
+        xRot = inputStream.readFloat();
     }
 
     @Override
-    public void write(ByteBuffer byteBuffer) {
-        byteBuffer.putDouble(x);
-        byteBuffer.putDouble(y);
-        byteBuffer.putDouble(z);
-        byteBuffer.putFloat(yRot);
-        byteBuffer.putFloat(xRot);
+    public void write(DataOutputStream outputStream) throws IOException {
+        outputStream.writeDouble(x);
+        outputStream.writeDouble(y);
+        outputStream.writeDouble(z);
+        outputStream.writeFloat(yRot);
+        outputStream.writeFloat(xRot);
     }
 }

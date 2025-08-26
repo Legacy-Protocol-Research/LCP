@@ -9,6 +9,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * Broadcasts a sign open screen to a client
+ *
+ * @s2c Tells the client to open a sign editor screen for a certain block
+ */
 @Getter
 @Setter
 public class OpenSignEditorPacket extends Packet {

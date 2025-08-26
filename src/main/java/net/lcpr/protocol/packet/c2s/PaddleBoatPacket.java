@@ -8,6 +8,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * Broadcasts when the client paddles a boat to the server
+ *
+ * @c2s Tells the server about the client paddling a boat
+ */
 @Getter
 @Setter
 public class PaddleBoatPacket extends Packet {

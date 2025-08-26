@@ -8,6 +8,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * Broadcasts a powerup effect to the client
+ *
+ * @s2c Tells the client they have a powerup and for how long
+ */
 @Getter
 @Setter
 public class PowerupPacket extends Packet {

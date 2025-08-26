@@ -9,6 +9,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * Broadcasts a difficulty change to a client
+ *
+ * @s2c Tells the client what difficulty the server currently is
+ */
 @Getter
 @Setter
 public class ChangeDifficultyPacket extends Packet {

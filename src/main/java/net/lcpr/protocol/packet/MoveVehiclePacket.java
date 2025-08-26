@@ -8,6 +8,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**
+ * A bi-direction packet describing vehicle position and rotation data
+ *
  * @c2s This will update the server on where the vehicle the client is currently riding is.
  * @s2c This will update the client on where a vehicle is in the world.
  */

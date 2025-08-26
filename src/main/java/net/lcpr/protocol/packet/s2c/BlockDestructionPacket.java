@@ -9,6 +9,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * Broadcasts to clients how broken a block currently is
+ *
+ * @s2c Tells the client how broken a particular block is
+ */
 @Getter
 @Setter
 public class BlockDestructionPacket extends Packet {

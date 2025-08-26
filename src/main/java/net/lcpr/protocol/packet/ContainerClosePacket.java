@@ -7,6 +7,12 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * A bi-directional packet which broadcasts when a container is closed
+ *
+ * @c2s Tells the server that the client closed the container
+ * @s2c Unknown
+ */
 @Getter
 @Setter
 public class ContainerClosePacket extends Packet {

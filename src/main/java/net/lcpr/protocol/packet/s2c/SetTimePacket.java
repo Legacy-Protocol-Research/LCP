@@ -8,6 +8,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * Broadcasts a time change to a client
+ *
+ * @s2c Tells the client what time it is
+ */
 @Getter
 @Setter
 public class SetTimePacket extends Packet {

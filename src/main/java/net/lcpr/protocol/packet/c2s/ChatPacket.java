@@ -9,6 +9,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+/**
+ * Broadcasts a chat message to the server
+ *
+ * @c2s Tells the server about a chat message the client wants to send
+ */
 @Getter
 @Setter
 public class ChatPacket extends Packet {

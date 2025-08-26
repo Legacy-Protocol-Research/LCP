@@ -8,6 +8,13 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * Broadcasts a change in player movement to the server
+ *
+ * @see net.lcpr.protocol.packet.c2s.MovePlayerPacket.Pos
+ * @see net.lcpr.protocol.packet.c2s.MovePlayerPacket.Rot
+ * @see net.lcpr.protocol.packet.c2s.MovePlayerPacket.PosRot
+ */
 public abstract class MovePlayerPacket extends Packet {
     private boolean onGround;
     private boolean bool3B;
@@ -24,6 +31,11 @@ public abstract class MovePlayerPacket extends Packet {
         outputStream.writeByte((onGround ? 1 : 0) | (bool3B ? 1 : 0));
     }
 
+    /**
+     * Broadcasts to the server a change in position
+     *
+     * @c2s Tells the server about a change in the client's position
+     */
     @Getter
     @Setter
     public static class Pos extends MovePlayerPacket {
@@ -46,6 +58,11 @@ public abstract class MovePlayerPacket extends Packet {
         }
     }
 
+    /**
+     * Broadcasts to the server a change in rotation
+     *
+     * @c2s Tells the server about a change in the client's rotation
+     */
     @Getter
     @Setter
     public static class Rot extends MovePlayerPacket {
@@ -66,6 +83,11 @@ public abstract class MovePlayerPacket extends Packet {
         }
     }
 
+    /**
+     * Broadcasts to the server a change in position and rotation
+     *
+     * @c2s Tells the server about a change in the client's position and rotation
+     */
     @Getter
     @Setter
     public static class PosRot extends MovePlayerPacket {

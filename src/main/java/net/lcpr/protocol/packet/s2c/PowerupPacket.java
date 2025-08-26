@@ -3,6 +3,8 @@ package net.lcpr.protocol.packet.s2c;
 import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -20,13 +22,13 @@ public class PowerupPacket extends Packet {
     private int powerupTime;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
+    public void read(EndianInputStream inputStream) throws IOException {
         powerupId = inputStream.readInt();
         powerupTime = inputStream.readInt();
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
+    public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeInt(powerupId);
         outputStream.writeInt(powerupTime);
     }

@@ -1,23 +1,19 @@
 package net.lcpr.protocol.utils;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.nio.ByteBuffer;
-
 public class VariableTypes {
-    public static int readInt(DataInputStream inputStream) {
+    public static int readInt(EndianInputStream inputStream) {
         return 0; // TODO
     }
 
-    public static void writeInt(DataOutputStream outputStream, int value) {
+    public static void writeInt(EndianOutputStream outputStream, int value) {
         // TODO
     }
 
-    public static long readLong(DataInputStream inputStream) {
+    public static long readLong(EndianInputStream inputStream) {
         return 0; // TODO
     }
 
-    public static void writeLong(DataOutputStream outputStream, long value) {
+    public static void writeLong(EndianOutputStream outputStream, long value) {
         // TODO
     }
 }

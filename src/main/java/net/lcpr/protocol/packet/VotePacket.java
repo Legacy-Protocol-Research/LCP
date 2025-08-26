@@ -2,9 +2,9 @@ package net.lcpr.protocol.packet;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 @Getter
@@ -16,7 +16,7 @@ public class VotePacket extends Packet {
     private int field_34;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
+    public void read(EndianInputStream inputStream) throws IOException {
         field_28 = inputStream.readInt();
         field_2C = inputStream.readByte();
         field_30 = inputStream.readInt();
@@ -24,7 +24,7 @@ public class VotePacket extends Packet {
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
+    public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeInt(field_28);
         outputStream.writeByte(field_2C);
         outputStream.writeInt(field_30);

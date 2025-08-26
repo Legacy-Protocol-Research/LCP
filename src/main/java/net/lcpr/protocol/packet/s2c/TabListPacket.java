@@ -3,6 +3,8 @@ package net.lcpr.protocol.packet.s2c;
 import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -15,14 +17,14 @@ public class TabListPacket extends Packet {
     private String str38;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
-        str18 = this.readUTF(inputStream, 0x7FFF);
-        str38 = this.readUTF(inputStream, 0x7FFF);
+    public void read(EndianInputStream inputStream) throws IOException {
+        str18 = inputStream.readUTF(0x7FFF);
+        str38 = inputStream.readUTF(0x7FFF);
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
-        this.writeUTF(outputStream, str18);
-        this.writeUTF(outputStream, str38);
+    public void write(EndianOutputStream outputStream) throws IOException {
+        outputStream.writeUTF(str18);
+        outputStream.writeUTF(str38);
     }
 }

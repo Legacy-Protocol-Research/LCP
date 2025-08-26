@@ -3,6 +3,8 @@ package net.lcpr.protocol.packet.s2c;
 import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 import net.lcpr.protocol.utils.VariableTypes;
 
 import java.io.DataInputStream;
@@ -19,7 +21,7 @@ public class PlayerCombatPacket extends Packet {
     private String message;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
+    public void read(EndianInputStream inputStream) throws IOException {
         event = inputStream.readInt();
 
         if (event == 1) {
@@ -31,12 +33,12 @@ public class PlayerCombatPacket extends Packet {
         if (event == 2) {
             playerId = VariableTypes.readInt(inputStream);
             killerId = inputStream.readInt();
-            message = this.readUTF(inputStream, 0x7FFF);
+            message = inputStream.readUTF(0x7FFF);
         }
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
+    public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeInt(event);
 
         if (event == 1) {
@@ -48,7 +50,7 @@ public class PlayerCombatPacket extends Packet {
         if (event == 2) {
             VariableTypes.writeInt(outputStream, playerId);
             outputStream.writeInt(killerId);
-            this.writeUTF(outputStream, message);
+            outputStream.writeUTF(message);
         }
     }
 }

@@ -1,14 +1,14 @@
 package net.lcpr.protocol.packet;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 
 public class GetInfoPacket extends Packet {
     @Override
-    public void read(DataInputStream inputStream) {}
+    public void read(EndianInputStream inputStream) {}
 
     @Override
-    public void write(DataOutputStream outputStream) {}
+    public void write(EndianOutputStream outputStream) {}
 
     @Override
     public int getEstimatedSize() {

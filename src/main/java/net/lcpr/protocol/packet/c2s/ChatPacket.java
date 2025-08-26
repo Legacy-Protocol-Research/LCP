@@ -3,6 +3,8 @@ package net.lcpr.protocol.packet.c2s;
 import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -23,12 +25,12 @@ public class ChatPacket extends Packet {
     private String message;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
-        message = this.readUTF(inputStream, 256);
+    public void read(EndianInputStream inputStream) throws IOException {
+        message = inputStream.readUTF(256);
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
-        this.writeUTF(outputStream, message);
+    public void write(EndianOutputStream outputStream) throws IOException {
+        outputStream.writeUTF(message);
     }
 }

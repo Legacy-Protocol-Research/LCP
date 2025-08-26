@@ -5,6 +5,8 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.types.Action;
 import net.lcpr.protocol.types.InteractionHand;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 import net.lcpr.protocol.utils.VariableTypes;
 import net.lcpr.protocol.utils.Vec;
 
@@ -21,7 +23,7 @@ public class InteractPacket extends Packet {
     private InteractionHand interactionHand;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
+    public void read(EndianInputStream inputStream) throws IOException {
         target = VariableTypes.readInt(inputStream);
         action = Action.values()[inputStream.readInt()];
         if (action.equals(Action.INTERACT_AT)) {
@@ -34,7 +36,7 @@ public class InteractPacket extends Packet {
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
+    public void write(EndianOutputStream outputStream) throws IOException {
         VariableTypes.writeInt(outputStream, target);
         outputStream.writeInt(action.ordinal());
 

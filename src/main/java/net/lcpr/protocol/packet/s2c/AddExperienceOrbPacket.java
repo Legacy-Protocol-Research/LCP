@@ -3,6 +3,8 @@ package net.lcpr.protocol.packet.s2c;
 import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -18,7 +20,7 @@ public class AddExperienceOrbPacket extends Packet {
     private int value;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
+    public void read(EndianInputStream inputStream) throws IOException {
         id = inputStream.readInt();
         x = inputStream.readInt();
         y = inputStream.readInt();
@@ -27,7 +29,7 @@ public class AddExperienceOrbPacket extends Packet {
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
+    public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeInt(id);
         outputStream.writeInt(x);
         outputStream.writeInt(y);

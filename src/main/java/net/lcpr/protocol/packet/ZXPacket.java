@@ -2,6 +2,8 @@ package net.lcpr.protocol.packet;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -15,14 +17,14 @@ public class ZXPacket extends Packet {
     private int x, z;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
+    public void read(EndianInputStream inputStream) throws IOException {
         field_28 = inputStream.readChar();
         x = inputStream.readInt();
         z = inputStream.readInt();
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
+    public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeChar(field_28);
         outputStream.writeInt(x);
         outputStream.writeInt(z);

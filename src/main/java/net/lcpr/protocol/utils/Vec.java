@@ -16,7 +16,7 @@ public class Vec {
             this.z = z;
         }
 
-        public static f3 read(DataInputStream inputStream) throws IOException {
+        public static f3 read(EndianInputStream inputStream) throws IOException {
             return new f3(
                     inputStream.readFloat(),
                     inputStream.readFloat(),
@@ -24,7 +24,7 @@ public class Vec {
             );
         }
 
-        public static void write(DataOutputStream outputStream, f3 value) throws IOException {
+        public static void write(EndianOutputStream outputStream, f3 value) throws IOException {
             outputStream.writeFloat(value.x);
             outputStream.writeFloat(value.y);
             outputStream.writeFloat(value.z);
@@ -41,7 +41,7 @@ public class Vec {
             this.z = z;
         }
 
-        public static i3 read(DataInputStream inputStream) throws IOException {
+        public static i3 read(EndianInputStream inputStream) throws IOException {
             return new i3(
                     inputStream.readInt(),
                     inputStream.readInt(),
@@ -49,7 +49,7 @@ public class Vec {
             );
         }
 
-        public static void write(DataOutputStream outputStream, i3 value) throws IOException {
+        public static void write(EndianOutputStream outputStream, i3 value) throws IOException {
             outputStream.writeInt(value.x);
             outputStream.writeInt(value.y);
             outputStream.writeInt(value.z);

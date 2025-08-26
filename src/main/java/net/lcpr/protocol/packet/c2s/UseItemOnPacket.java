@@ -5,10 +5,10 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.types.Direction;
 import net.lcpr.protocol.types.InteractionHand;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 import net.lcpr.protocol.utils.Vec;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**
@@ -25,7 +25,7 @@ public class UseItemOnPacket extends Packet {
     private Vec.f3 click;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
+    public void read(EndianInputStream inputStream) throws IOException {
         pos = Vec.i3.read(inputStream);
         direction = Direction.values()[inputStream.readByte()];
         interactionHand = InteractionHand.values()[inputStream.readByte()];
@@ -33,7 +33,7 @@ public class UseItemOnPacket extends Packet {
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
+    public void write(EndianOutputStream outputStream) throws IOException {
         Vec.i3.write(outputStream, pos);
         outputStream.writeByte(direction.ordinal());
         outputStream.writeByte(interactionHand.ordinal());

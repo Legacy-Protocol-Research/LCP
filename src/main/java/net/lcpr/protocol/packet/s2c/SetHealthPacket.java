@@ -3,6 +3,8 @@ package net.lcpr.protocol.packet.s2c;
 import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 import net.lcpr.protocol.utils.VariableTypes;
 
 import java.io.DataInputStream;
@@ -20,7 +22,7 @@ public class SetHealthPacket extends Packet {
     private int dword20;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
+    public void read(EndianInputStream inputStream) throws IOException {
         health = inputStream.readFloat();
         food = VariableTypes.readInt(inputStream);
         saturation = inputStream.readFloat();
@@ -30,7 +32,7 @@ public class SetHealthPacket extends Packet {
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
+    public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeFloat(health);
         VariableTypes.writeInt(outputStream, food);
         outputStream.writeFloat(saturation);

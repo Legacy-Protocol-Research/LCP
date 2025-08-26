@@ -2,6 +2,8 @@ package net.lcpr.protocol.packet;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 import net.lcpr.protocol.utils.Side;
 
 import java.io.DataInputStream;
@@ -16,14 +18,14 @@ public class ContainerAckPacket extends Packet {
     private boolean accepted;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
+    public void read(EndianInputStream inputStream) throws IOException {
         containerId = inputStream.readByte();
         uid = inputStream.readShort();
         accepted = inputStream.readBoolean();
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
+    public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeByte(containerId);
         outputStream.writeShort(uid);
         outputStream.writeBoolean(accepted);

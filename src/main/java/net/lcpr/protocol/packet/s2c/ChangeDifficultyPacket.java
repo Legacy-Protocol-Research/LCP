@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.types.Difficulty;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -20,12 +22,12 @@ public class ChangeDifficultyPacket extends Packet {
     private Difficulty difficulty;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
+    public void read(EndianInputStream inputStream) throws IOException {
         difficulty = Difficulty.values()[inputStream.readUnsignedByte()];
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
+    public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeByte(difficulty.ordinal());
     }
 }

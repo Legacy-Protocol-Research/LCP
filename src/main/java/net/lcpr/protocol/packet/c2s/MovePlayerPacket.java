@@ -3,6 +3,8 @@ package net.lcpr.protocol.packet.c2s;
 import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -20,14 +22,14 @@ public abstract class MovePlayerPacket extends Packet {
     private boolean bool3B;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
+    public void read(EndianInputStream inputStream) throws IOException {
         byte data = inputStream.readByte();
         onGround = (data & 1) == 1;
         bool3B = ((data >> 1) & 1) == 1;
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
+    public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeByte((onGround ? 1 : 0) | (bool3B ? 1 : 0));
     }
 
@@ -42,7 +44,7 @@ public abstract class MovePlayerPacket extends Packet {
         private double x, y, z;
 
         @Override
-        public void read(DataInputStream inputStream) throws IOException {
+        public void read(EndianInputStream inputStream) throws IOException {
             x = inputStream.readDouble();
             y = inputStream.readDouble();
             z = inputStream.readDouble();
@@ -50,7 +52,7 @@ public abstract class MovePlayerPacket extends Packet {
         }
 
         @Override
-        public void write(DataOutputStream outputStream) throws IOException {
+        public void write(EndianOutputStream outputStream) throws IOException {
             outputStream.writeDouble(x);
             outputStream.writeDouble(y);
             outputStream.writeDouble(z);
@@ -69,14 +71,14 @@ public abstract class MovePlayerPacket extends Packet {
         private float xRot, yRot;
 
         @Override
-        public void read(DataInputStream inputStream) throws IOException {
+        public void read(EndianInputStream inputStream) throws IOException {
             xRot = inputStream.readFloat();
             yRot = inputStream.readFloat();
             super.read(inputStream);
         }
 
         @Override
-        public void write(DataOutputStream outputStream) throws IOException {
+        public void write(EndianOutputStream outputStream) throws IOException {
             outputStream.writeFloat(xRot);
             outputStream.writeFloat(yRot);
             super.write(outputStream);
@@ -95,7 +97,7 @@ public abstract class MovePlayerPacket extends Packet {
         private float xRot, yRot;
 
         @Override
-        public void read(DataInputStream inputStream) throws IOException {
+        public void read(EndianInputStream inputStream) throws IOException {
             x = inputStream.readDouble();
             y = inputStream.readDouble();
             z = inputStream.readDouble();
@@ -105,7 +107,7 @@ public abstract class MovePlayerPacket extends Packet {
         }
 
         @Override
-        public void write(DataOutputStream outputStream) throws IOException {
+        public void write(EndianOutputStream outputStream) throws IOException {
             outputStream.writeDouble(x);
             outputStream.writeDouble(y);
             outputStream.writeDouble(z);

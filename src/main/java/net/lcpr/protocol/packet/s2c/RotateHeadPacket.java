@@ -3,6 +3,8 @@ package net.lcpr.protocol.packet.s2c;
 import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 import net.lcpr.protocol.utils.VariableTypes;
 
 import java.io.DataInputStream;
@@ -16,13 +18,13 @@ public class RotateHeadPacket extends Packet {
     private byte yHeadRot;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
+    public void read(EndianInputStream inputStream) throws IOException {
         entityId = VariableTypes.readInt(inputStream);
         yHeadRot = inputStream.readByte();
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
+    public void write(EndianOutputStream outputStream) throws IOException {
         VariableTypes.writeInt(outputStream, entityId);
         outputStream.writeByte(yHeadRot);
     }

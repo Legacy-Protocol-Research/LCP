@@ -1,16 +1,16 @@
 package net.lcpr.protocol;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
+
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 public class DataStreamUtils {
-    public static long readUnsignedInt(DataInputStream inputStream) throws IOException {
+    public static long readUnsignedInt(EndianInputStream inputStream) throws IOException {
         return inputStream.readInt() & 0xffffffffL;
     }
 
-    public static void writeUnsignedInt(DataOutputStream outputStream, long value) throws IOException {
+    public static void writeUnsignedInt(EndianOutputStream outputStream, long value) throws IOException {
         if (value > 4294967295L) {
             throw new IllegalArgumentException("Long value was greater than UInt bounds.");
         } else if (value < 0) {

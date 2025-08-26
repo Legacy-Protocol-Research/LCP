@@ -1,1 +1,1 @@
-rootProject.name = "LCP"
+rootProject.name = "LegacyConsoleProtocol"

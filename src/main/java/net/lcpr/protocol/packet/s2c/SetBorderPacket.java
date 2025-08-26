@@ -3,6 +3,8 @@ package net.lcpr.protocol.packet.s2c;
 import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
+import net.lcpr.protocol.utils.EndianInputStream;
+import net.lcpr.protocol.utils.EndianOutputStream;
 import net.lcpr.protocol.utils.VariableTypes;
 
 import java.io.DataInputStream;
@@ -23,7 +25,7 @@ public class SetBorderPacket extends Packet {
     private int dword_5c;
 
     @Override
-    public void read(DataInputStream inputStream) throws IOException {
+    public void read(EndianInputStream inputStream) throws IOException {
         dword_28 = inputStream.readInt();
         switch (dword_28) {
             case 0:
@@ -58,7 +60,7 @@ public class SetBorderPacket extends Packet {
     }
 
     @Override
-    public void write(DataOutputStream outputStream) throws IOException {
+    public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeInt(dword_28);
         switch (dword_28) {
             case 0:

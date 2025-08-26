@@ -1,10 +1,10 @@
 package net.lcpr.protocol.utils;
 
-import com.google.common.io.LittleEndianDataInputStream;
-import com.google.common.io.LittleEndianDataOutputStream;
-
 import java.io.*;
 
+/**
+ * An enum for platforms, used for identification and to determine whether to use
+ */
 public enum Platform {
     XB360(false),
     XB1(true),
@@ -26,27 +26,11 @@ public enum Platform {
         this.isLittleEndian = isLittleEndian;
     }
 
-    public DataInputStream getInputStream(InputStream backingStream) {
-        DataInputStream stream;
-
-        if (isLittleEndian) {
-            stream = new DataInputStream(new LittleEndianDataInputStream(backingStream));
-        } else {
-            stream = new DataInputStream(backingStream);
-        }
-
-        return stream;
+    public EndianInputStream getInputStream(InputStream backingStream) {
+        return new EndianInputStream(backingStream, isLittleEndian);
     }
 
-    public DataOutputStream getOutputStream(OutputStream backingStream) {
-        DataOutputStream stream;
-
-        if (isLittleEndian) {
-            stream = new DataOutputStream(new LittleEndianDataOutputStream(backingStream));
-        } else {
-            stream = new DataOutputStream(backingStream);
-        }
-
-        return stream;
+    public EndianOutputStream getOutputStream(OutputStream backingStream) {
+        return new EndianOutputStream(backingStream, isLittleEndian);
     }
 }

@@ -11,8 +11,8 @@ import java.io.IOException;
 @Getter
 @Setter
 public class PlayerInputPacket extends Packet {
-    private float xxa;
-    private float zza;
+    private float xxa; // TODO find out what these are
+    private float zza; // TODO find out what these are
     private boolean isJumping;
     private boolean isSneaking;
 

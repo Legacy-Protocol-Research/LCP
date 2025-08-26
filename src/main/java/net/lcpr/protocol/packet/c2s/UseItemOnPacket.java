@@ -11,6 +11,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * Broadcasts an item use on a certain position to the server
+ *
+ * @c2s Tells the server the client used an item on a certain position (Where the crosshair is)
+ */
 @Getter
 @Setter
 public class UseItemOnPacket extends Packet {

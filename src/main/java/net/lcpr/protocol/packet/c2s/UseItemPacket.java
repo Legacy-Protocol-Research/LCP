@@ -9,6 +9,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * Broadcasts a use of an item (Likely while looking in the air)
+ *
+ * @c2s Tells the server the client used an item
+ */
 @Getter
 @Setter
 public class UseItemPacket extends Packet {

@@ -8,6 +8,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * Broadcasts a change in which hotbar slot the player is currently holding
+ *
+ * @c2s Tells the server which hotbar slot the player is currently holding
+ */
 @Getter
 @Setter
 public class SetCarriedItemPacket extends Packet {

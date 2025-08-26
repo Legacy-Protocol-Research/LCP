@@ -30,6 +30,6 @@ tasks.withType<Javadoc> {
             "c2s:a:C2S context:",
             "s2c:a:S2C context:"
         )
-        stylesheetFile = file("javadocs.css")
+        //stylesheetFile = file("javadocs.css")
     }
 }

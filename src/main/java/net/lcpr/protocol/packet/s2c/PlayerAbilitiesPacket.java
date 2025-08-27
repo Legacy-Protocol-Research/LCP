@@ -8,16 +8,45 @@ import net.lcpr.protocol.utils.EndianOutputStream;
 
 import java.io.IOException;
 
+/**
+ * Broadcasts a change in a player's abilities
+ *
+ * @s2c Tells the client about a player's abilities
+ */
 @Getter
 @Setter
 public class PlayerAbilitiesPacket extends Packet {
+    /**
+     * Whether the player can take damage or not
+     */
     private boolean isInvulnerable;
+    /**
+     * Whether the player is flying or not
+     */
     private boolean isFlying;
+    /**
+     * Whether the player can fly or not
+     */
     private boolean isEnableFly;
+    /**
+     * Whether the player can instabuild or not
+     */
     private boolean isInstabuild;
+    /**
+     * The flying speed of the player
+     */
     private float flyingSpeed;
+    /**
+     * The walking speed of the player
+     */
     private float walkingSpeed;
+    /**
+     * Whether the playuer can build or not
+     */
     private boolean isEnableBuild;
+    /**
+     * The ID of the player
+     */
     private int playerId;
 
     @Override

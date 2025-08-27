@@ -17,6 +17,9 @@ import java.io.IOException;
 @Getter
 @Setter
 public class ChangeDifficultyPacket extends Packet {
+    /**
+     * The new difficulty to show the client
+     */
     private Difficulty difficulty;
 
     @Override

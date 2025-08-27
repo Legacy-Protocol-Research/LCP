@@ -5,11 +5,8 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
-import net.lcpr.protocol.utils.VariableTypes;
 import net.lcpr.protocol.utils.Vec;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 @Getter
@@ -20,13 +17,13 @@ public class PlayerSleepPacket extends Packet {
 
     @Override
     public void read(EndianInputStream inputStream) throws IOException {
-        playerId = VariableTypes.readInt(inputStream);
+        playerId = inputStream.readVarInt();
         pos = Vec.i3.read(inputStream);
     }
 
     @Override
     public void write(EndianOutputStream outputStream) throws IOException {
-        VariableTypes.writeInt(outputStream, playerId);
+        outputStream.writeVarInt(playerId);
         Vec.i3.write(outputStream, pos);
     }
 }

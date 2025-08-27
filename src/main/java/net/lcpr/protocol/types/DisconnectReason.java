@@ -1,8 +1,11 @@
 package net.lcpr.protocol.types;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public enum DisconnectReason {
     ZERO(0),
     CLOSED(2),
@@ -18,10 +21,6 @@ public enum DisconnectReason {
     }
 
     private final int id;
-
-    public int getId() {
-        return id;
-    }
 
     DisconnectReason(int id) {
         this.id = id;

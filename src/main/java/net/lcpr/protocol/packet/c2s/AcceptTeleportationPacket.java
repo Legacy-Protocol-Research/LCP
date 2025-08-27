@@ -5,10 +5,7 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
-import net.lcpr.protocol.utils.VariableTypes;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 @Getter
@@ -18,11 +15,11 @@ public class AcceptTeleportationPacket extends Packet {
 
     @Override
     public void read(EndianInputStream inputStream) throws IOException {
-        id = VariableTypes.readInt(inputStream);
+        id = inputStream.readVarInt();
     }
 
     @Override
     public void write(EndianOutputStream outputStream) throws IOException {
-        VariableTypes.writeInt(outputStream, id);
+        outputStream.writeVarInt(id);
     }
 }

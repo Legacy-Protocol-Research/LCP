@@ -7,8 +7,6 @@ import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
 import net.lcpr.protocol.utils.Vec;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**
@@ -19,8 +17,18 @@ import java.io.IOException;
 @Getter
 @Setter
 public class BlockDestructionPacket extends Packet {
+    /**
+     * A player ID, but can realistically be any value (Just has to be unique to
+     * other block destruction packets to show multiple)
+     */
     private int id;
+    /**
+     * The position of the block being broken
+     */
     private Vec.i3 pos;
+    /**
+     * The progress stage of destruction
+     */
     private int progress;
 
     @Override

@@ -16,7 +16,13 @@ import java.io.IOException;
 @Getter
 @Setter
 public class PowerupPacket extends Packet {
+    /**
+     * The ID of the powerup collected
+     */
     private int powerupId;
+    /**
+     * How long the powerup applies for
+     */
     private int powerupTime;
 
     @Override

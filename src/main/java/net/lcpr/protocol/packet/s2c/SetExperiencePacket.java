@@ -9,11 +9,26 @@ import net.lcpr.protocol.utils.VariableTypes;
 
 import java.io.IOException;
 
+/**
+ * Broadcasts a change in experience to the client
+ *
+ * @s2c Tells the client their XP levels
+ */
 @Getter
 @Setter
 public class SetExperiencePacket extends Packet {
+    /**
+     * The progress through the current level
+     */
     private float experienceProgress;
-    private int experienceLevel, totalExperience;
+    /**
+     * The current xp level
+     */
+    private int experienceLevel;
+    /**
+     * The total amount of experience points the player has
+     */
+    private int totalExperience;
 
     @Override
     public void read(EndianInputStream inputStream) throws IOException {

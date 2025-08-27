@@ -5,7 +5,8 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
-import net.lcpr.protocol.utils.VariableTypes;
+
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -13,12 +14,12 @@ public class SetCameraPacket extends Packet {
     private int id;
 
     @Override
-    public void read(EndianInputStream inputStream) {
-        id = VariableTypes.readInt(inputStream);
+    public void read(EndianInputStream inputStream) throws IOException {
+        id = inputStream.readVarInt();
     }
 
     @Override
-    public void write(EndianOutputStream outputStream) {
-        VariableTypes.writeInt(outputStream, id);
+    public void write(EndianOutputStream outputStream) throws IOException {
+        outputStream.writeVarInt(id);
     }
 }

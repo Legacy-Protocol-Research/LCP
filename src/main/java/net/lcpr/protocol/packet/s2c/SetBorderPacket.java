@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
-import net.lcpr.protocol.utils.VariableTypes;
 
 import java.io.IOException;
 
@@ -32,7 +31,7 @@ public class SetBorderPacket extends Packet {
             case 1:
                 double_48 = inputStream.readDouble();
                 double_40 = inputStream.readDouble();
-                qword_50 = VariableTypes.readLong(inputStream);
+                qword_50 = inputStream.readVarLong();
                 break;
             case 2:
                 double_30 = inputStream.readDouble();
@@ -43,16 +42,16 @@ public class SetBorderPacket extends Packet {
                 double_38 = inputStream.readDouble();
                 double_48 = inputStream.readDouble();
                 double_40 = inputStream.readDouble();
-                qword_50 = VariableTypes.readLong(inputStream);
-                dword_2c = VariableTypes.readInt(inputStream);
-                dword_5c = VariableTypes.readInt(inputStream);
-                dword_58 = VariableTypes.readInt(inputStream);
+                qword_50 = inputStream.readVarLong();
+                dword_2c = inputStream.readVarInt();
+                dword_5c = inputStream.readVarInt();
+                dword_58 = inputStream.readVarInt();
                 break;
             case 4:
-                dword_58 = VariableTypes.readInt(inputStream);
+                dword_58 = inputStream.readVarInt();
                 break;
             case 5:
-                dword_5c = VariableTypes.readInt(inputStream);
+                dword_5c = inputStream.readVarInt();
                 break;
         }
     }
@@ -67,7 +66,7 @@ public class SetBorderPacket extends Packet {
             case 1:
                 outputStream.writeDouble(double_48);
                 outputStream.writeDouble(double_40);
-                VariableTypes.writeLong(outputStream, qword_50);
+                outputStream.writeVarLong(qword_50);
                 break;
             case 2:
                 outputStream.writeDouble(double_30);
@@ -78,16 +77,16 @@ public class SetBorderPacket extends Packet {
                 outputStream.writeDouble(double_38);
                 outputStream.writeDouble(double_48);
                 outputStream.writeDouble(double_40);
-                VariableTypes.writeLong(outputStream, qword_50);
-                VariableTypes.writeInt(outputStream, dword_2c);
-                VariableTypes.writeInt(outputStream, dword_5c);
-                VariableTypes.writeInt(outputStream, dword_58);
+                outputStream.writeVarLong(qword_50);
+                outputStream.writeVarInt(dword_2c);
+                outputStream.writeVarInt(dword_5c);
+                outputStream.writeVarInt(dword_58);
                 break;
             case 4:
-                VariableTypes.writeInt(outputStream, dword_58);
+                outputStream.writeVarInt(dword_58);
                 break;
             case 5:
-                VariableTypes.writeInt(outputStream, dword_5c);
+                outputStream.writeVarInt(dword_5c);
                 break;
         }
     }

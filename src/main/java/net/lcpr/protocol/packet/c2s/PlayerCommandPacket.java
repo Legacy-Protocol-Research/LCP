@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
-import net.lcpr.protocol.utils.VariableTypes;
 
 import java.io.IOException;
 
@@ -18,16 +17,16 @@ public class PlayerCommandPacket extends Packet {
 
     @Override
     public void read(EndianInputStream inputStream) throws IOException {
-        id = VariableTypes.readInt(inputStream);
+        id = inputStream.readVarInt();
         action = inputStream.readInt();
-        data = VariableTypes.readInt(inputStream);
+        data = inputStream.readVarInt();
     }
 
     @Override
     public void write(EndianOutputStream outputStream) throws IOException {
-        VariableTypes.writeInt(outputStream, id);
+        outputStream.writeVarInt(id);
         outputStream.writeInt(action);
-        VariableTypes.writeInt(outputStream, data);
+        outputStream.writeVarInt(data);
     }
 
     @Override

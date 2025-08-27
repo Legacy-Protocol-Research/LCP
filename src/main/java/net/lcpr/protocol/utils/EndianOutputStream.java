@@ -94,12 +94,33 @@ public class EndianOutputStream {
     }
 
     /**
+     * Writes a variable int to the stream
+     *
+     * @param v the variable int value to write
+     * @throws IOException If an I/O error occurs
+     */
+    public void writeVarInt(int v) throws IOException {
+        // TODO
+    }
+
+    /**
      * Writes a long to the stream
      *
      * @param v the long value to write
      * @throws IOException If an I/O error occurs
      */
     public void writeLong(long v) throws IOException {
+        if (isLittleEndian) little.writeLong(v);
+        else big.writeLong(v);
+    }
+
+    /**
+     * Writes a variable long to the stream
+     *
+     * @param v the variable long value to write
+     * @throws IOException If an I/O error occurs
+     */
+    public void writeVarLong(long v) throws IOException {
         if (isLittleEndian) little.writeLong(v);
         else big.writeLong(v);
     }

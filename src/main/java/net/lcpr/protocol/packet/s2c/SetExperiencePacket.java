@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
-import net.lcpr.protocol.utils.VariableTypes;
 
 import java.io.IOException;
 
@@ -33,14 +32,14 @@ public class SetExperiencePacket extends Packet {
     @Override
     public void read(EndianInputStream inputStream) throws IOException {
         experienceProgress = inputStream.readFloat();
-        totalExperience = VariableTypes.readInt(inputStream);
-        experienceLevel = VariableTypes.readInt(inputStream);
+        totalExperience = inputStream.readVarInt();
+        experienceLevel = inputStream.readVarInt();
     }
 
     @Override
     public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeFloat(experienceProgress);
-        VariableTypes.writeInt(outputStream, totalExperience);
-        VariableTypes.writeInt(outputStream, experienceLevel);
+        outputStream.writeVarInt(totalExperience);
+        outputStream.writeVarInt(experienceLevel);
     }
 }

@@ -151,6 +151,16 @@ public class EndianInputStream {
     }
 
     /**
+     * Reads an variable int from the stream
+     *
+     * @return the variable int value
+     * @throws IOException If an I/O error occurs
+     */
+    public int readVarInt() throws IOException {
+        return 0; // TODO
+    }
+
+    /**
      * Reads a long from the stream
      *
      * @return the long value
@@ -159,6 +169,16 @@ public class EndianInputStream {
     public long readLong() throws IOException {
         if (isLittleEndian) return little.readLong();
         else return big.readLong();
+    }
+
+    /**
+     * Reads a variable long from the stream
+     *
+     * @return the variable long value
+     * @throws IOException If an I/O error occurs
+     */
+    public long readVarLong() throws IOException {
+        return 0; // TODO
     }
 
     /**

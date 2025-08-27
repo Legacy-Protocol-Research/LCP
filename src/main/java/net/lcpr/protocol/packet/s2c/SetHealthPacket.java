@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
-import net.lcpr.protocol.utils.VariableTypes;
 
 import java.io.IOException;
 
@@ -22,21 +21,21 @@ public class SetHealthPacket extends Packet {
     @Override
     public void read(EndianInputStream inputStream) throws IOException {
         health = inputStream.readFloat();
-        food = VariableTypes.readInt(inputStream);
+        food = inputStream.readVarInt();
         saturation = inputStream.readFloat();
         dword18 = inputStream.readByte() & 0xFF;
-        dword1C = VariableTypes.readInt(inputStream);
-        dword20 = VariableTypes.readInt(inputStream);
+        dword1C = inputStream.readVarInt();
+        dword20 = inputStream.readVarInt();
     }
 
     @Override
     public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeFloat(health);
-        VariableTypes.writeInt(outputStream, food);
+        outputStream.writeVarInt(food);
         outputStream.writeFloat(saturation);
         outputStream.writeByte(dword18);
-        VariableTypes.writeInt(outputStream, dword1C);
-        VariableTypes.writeInt(outputStream, dword20);
+        outputStream.writeVarInt(dword1C);
+        outputStream.writeVarInt(dword20);
     }
 
     @Override

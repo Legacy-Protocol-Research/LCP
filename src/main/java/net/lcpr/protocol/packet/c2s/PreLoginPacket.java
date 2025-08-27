@@ -1,3 +1,5 @@
+package net.lcpr.protocol.packet.c2s;
+
 /**
  * Sent from the client to initiate login
  *
@@ -6,20 +8,20 @@
 @Getter
 @Setter
 public class PreLoginPacket extends Packet {
-    private short id; // might be something different but the type is correct
+    private short protocolVersion; // might be something different but the type is correct
     private String name;
 
-    private static final String PROTOCOL_VERSION = 1920; // nx latest
+    private static final short PROTOCOL_VERSION = 1920; // nx latest
 
     @Override
     public void read(EndianInputStream inputStream) throws IOException {
-        id = inputStream.readShort();
+        protocolVersion = inputStream.readShort();
         name = inputStream.readUtf(0x20);
     }
 
     @Override
     public void write(EndianOutputStream outputStream) throws IOException {
-        outputStream.writeShort(PROTOCOL_VERSION) // THIS IS PROTOCOL VER
+        outputStream.writeShort(PROTOCOL_VERSION); // THIS IS PROTOCOL VER
         outputStream.writeUtf(this.name);
     }
 }

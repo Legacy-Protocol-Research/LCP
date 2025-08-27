@@ -8,11 +8,25 @@ import net.lcpr.protocol.utils.EndianOutputStream;
 
 import java.io.IOException;
 
+/**
+ * Broadcasts a change in the player's stats (Health, food and saturation)
+ *
+ * @s2c Tells the client it's health, food level and saturation
+ */
 @Getter
 @Setter
 public class SetHealthPacket extends Packet {
+    /**
+     * The health level of the client
+     */
     private float health;
+    /**
+     * The food level of the client
+     */
     private int food;
+    /**
+     * The saturation level of the client
+     */
     private float saturation;
     private int dword18;
     private int dword1C;

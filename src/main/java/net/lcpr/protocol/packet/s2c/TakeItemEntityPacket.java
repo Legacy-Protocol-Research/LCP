@@ -8,10 +8,26 @@ import net.lcpr.protocol.utils.EndianOutputStream;
 
 import java.io.IOException;
 
+/**
+ * Broadcasts to the client that a player has picked up an item
+ *
+ * @s2c Tells the client a player picked up an item and how much of said item
+ */
 @Getter
 @Setter
 public class TakeItemEntityPacket extends Packet {
-    private int playerId, itemId, amount;
+    /**
+     * The ID of the player who picked up the item
+     */
+    private int playerId;
+    /**
+     * The ID of the item which the player picked up
+     */
+    private int itemId;
+    /**
+     * How much of the item the player picked up
+     */
+    private int amount;
 
     @Override
     public void read(EndianInputStream inputStream) throws IOException {

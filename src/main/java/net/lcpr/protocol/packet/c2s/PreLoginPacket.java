@@ -9,6 +9,8 @@ public class PreLoginPacket extends Packet {
     private short id; // might be something different but the type is correct
     private String name;
 
+    private static final String PROTOCOL_VERSION = 1920; // nx latest
+
     @Override
     public void read(EndianInputStream inputStream) throws IOException {
         id = inputStream.readShort();
@@ -17,6 +19,7 @@ public class PreLoginPacket extends Packet {
 
     @Override
     public void write(EndianOutputStream outputStream) throws IOException {
-      // todo
+        outputStream.writeShort(PROTOCOL_VERSION) // THIS IS PROTOCOL VER
+        outputStream.writeUtf(this.name);
     }
 }

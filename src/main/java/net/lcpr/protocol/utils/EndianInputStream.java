@@ -3,7 +3,10 @@ package net.lcpr.protocol.utils;
 import com.google.common.io.LittleEndianDataInputStream;
 import net.lcpr.protocol.LegacyConsoleProtocol;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * An input stream clone which supports the 2 different endian types used in LCE (Little Endian and Big Endian)

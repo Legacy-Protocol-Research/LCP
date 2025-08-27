@@ -7,10 +7,13 @@ import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
 import net.lcpr.protocol.utils.VariableTypes;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
+/**
+ * Broadcasts a cooldown to a certain item for a certain period of time
+ *
+ * @s2c Tells the client a certain item in on cooldown and for how long
+ */
 @Getter
 @Setter
 public class CooldownPacket extends Packet {

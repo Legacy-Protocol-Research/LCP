@@ -1,9 +1,6 @@
 package net.lcpr.protocol.utils;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 public class Vec {
     public static class f3 {

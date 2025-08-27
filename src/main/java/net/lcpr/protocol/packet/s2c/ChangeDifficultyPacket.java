@@ -7,8 +7,6 @@ import net.lcpr.protocol.types.Difficulty;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**

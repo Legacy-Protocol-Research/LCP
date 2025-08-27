@@ -1,6 +1,7 @@
 package net.lcpr.protocol.utils;
 
-import java.io.*;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * An enum for platforms, used for identification and to determine whether to use

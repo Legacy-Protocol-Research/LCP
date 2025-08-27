@@ -2,7 +2,9 @@ package net.lcpr.protocol.utils;
 
 import com.google.common.io.LittleEndianDataOutputStream;
 
-import java.io.*;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * An output stream clone which supports the 2 different endian types used in LCE (Little Endian and Big Endian)

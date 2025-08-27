@@ -6,7 +6,6 @@ public class Vec {
     public static class f3 {
         private float x, y, z;
 
-        public f3() {}
         public f3(float x, float y, float z) {
             this.x = x;
             this.y = y;
@@ -31,7 +30,6 @@ public class Vec {
     public static class i3 {
         private int x, y, z;
 
-        public i3() {}
         public i3(int x, int y, int z) {
             this.x = x;
             this.y = y;

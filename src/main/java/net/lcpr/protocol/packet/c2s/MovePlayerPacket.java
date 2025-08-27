@@ -15,7 +15,7 @@ import java.io.IOException;
  * @see net.lcpr.protocol.packet.c2s.MovePlayerPacket.Rot
  * @see net.lcpr.protocol.packet.c2s.MovePlayerPacket.PosRot
  */
-public abstract class MovePlayerPacket extends Packet {
+public class MovePlayerPacket extends Packet {
     private boolean onGround;
     private boolean bool3B;
 

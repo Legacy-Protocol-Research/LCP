@@ -6,6 +6,7 @@ import net.lcpr.protocol.utils.EndianOutputStream;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Packet base that holds a packed header which determines what to read
@@ -13,6 +14,11 @@ import java.util.ArrayList;
  * More info + bit layout of the packed int can be found <a href="https://Team-Lodestone.github.io/Documentation/LCE/Packets/Types/Flexible%20Packet">here</a>
  */
 public class FlexiblePacket extends Packet {
+    private List<String> strings;
+    private List<Integer> varints;
+    private List<Boolean> booleans;
+    private List<Float> floats;
+
     @Override
     public void read(EndianInputStream inputStream) throws IOException {
         int packed = inputStream.readInt();
@@ -27,8 +33,7 @@ public class FlexiblePacket extends Packet {
         }
 
         for (int i = 0; i < varints; i++) {
-            // TODO: implement varint
-            // varints.add(inputStream.readVarint());
+            this.varints.add(inputStream.readVarInt());
         }
 
         // might actually need to be is bigger than 0 but whatever
@@ -55,8 +60,7 @@ public class FlexiblePacket extends Packet {
 
         for (String string : strings) outputStream.writeUTF(string);
 
-        // TODO: varint
-        // for (Integer varint : varints) outputStream.writeVarint(varint);
+        for (Integer varint : varints) outputStream.writeVarInt(varint);
 
         if (!booleans.isEmpty()) {
             char b = 0;
@@ -69,9 +73,4 @@ public class FlexiblePacket extends Packet {
 
         for (Float flt : floats) outputStream.writeFloat(flt);
     }
-
-    ArrayList<String> strings;
-    ArrayList<Integer> varints;
-    ArrayList<Boolean> booleans;
-    ArrayList<Float> floats;
 }

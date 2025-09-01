@@ -19,7 +19,7 @@ public class PreLoginPacket extends Packet {
     private short protocolVersion; // might be something different but the type is correct
     private String name;
 
-    private static final short PROTOCOL_VERSION = 1920; // nx latest
+    private static final short PROTOCOL_VERSION = 1920; // nx latest, perhaps we would want to customise this? different platforms have different versions
 
     @Override
     public void read(EndianInputStream inputStream) throws IOException {

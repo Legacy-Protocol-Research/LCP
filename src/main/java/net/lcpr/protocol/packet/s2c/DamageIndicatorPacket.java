@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 
@@ -27,6 +28,11 @@ public class DamageIndicatorPacket extends Packet {
         outputStream.writeFloat(x);
         outputStream.writeFloat(z);
         outputStream.writeBoolean(allDirections);
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.ClientboundDamageIndicatorPacket;
     }
 
     @Override

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 import net.lcpr.protocol.utils.Side;
 
 import java.io.IOException;
@@ -27,6 +28,13 @@ public class ContainerAckPacket extends Packet {
         outputStream.writeByte(containerId);
         outputStream.writeShort(uid);
         outputStream.writeBoolean(accepted);
+    }
+
+    @Override
+    public PacketType getType() {
+        return this.getOrigin().equals(Side.CLIENTBOUND) ?
+                PacketType.ClientboundContainerAckPacket :
+                PacketType.ServerboundContainerAckPacket;
     }
 
     @Override

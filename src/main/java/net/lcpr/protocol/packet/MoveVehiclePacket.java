@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
+import net.lcpr.protocol.utils.Side;
 
 import java.io.IOException;
 
@@ -53,5 +55,12 @@ public class MoveVehiclePacket extends Packet {
         outputStream.writeDouble(z);
         outputStream.writeFloat(yRot);
         outputStream.writeFloat(xRot);
+    }
+
+    @Override
+    public PacketType getType() {
+        return this.getOrigin().equals(Side.CLIENTBOUND) ?
+                PacketType.ClientboundMoveVehiclePacket :
+                PacketType.ServerboundMoveVehiclePacket;
     }
 }

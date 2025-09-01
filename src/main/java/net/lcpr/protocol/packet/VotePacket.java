@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 
@@ -29,5 +30,10 @@ public class VotePacket extends Packet {
         outputStream.writeByte(field_2C);
         outputStream.writeInt(field_30);
         outputStream.writeInt(field_34);
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.VotePacket;
     }
 }

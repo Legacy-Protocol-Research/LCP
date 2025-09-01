@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 
@@ -74,5 +75,10 @@ public class PlayerAbilitiesPacket extends Packet {
         outputStream.writeFloat(flyingSpeed);
         outputStream.writeFloat(walkingSpeed);
         outputStream.writeInt(playerId);
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.ClientboundPlayerAbilitiesPacket;
     }
 }

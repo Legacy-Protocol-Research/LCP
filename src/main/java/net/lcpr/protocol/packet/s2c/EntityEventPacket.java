@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 
@@ -27,5 +28,10 @@ public class EntityEventPacket extends Packet {
         outputStream.writeInt(entityId);
         outputStream.writeByte(eventId);
         outputStream.writeInt(data);
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.ClientboundEntityEventPacket;
     }
 }

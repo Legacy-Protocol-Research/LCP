@@ -3,15 +3,12 @@ package net.lcpr.protocol.utils;
 import com.google.common.io.LittleEndianDataInputStream;
 import net.lcpr.protocol.LegacyConsoleProtocol;
 
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * An input stream clone which supports the 2 different endian types used in LCE (Little Endian and Big Endian)
  */
-public class EndianInputStream {
+public class EndianInputStream implements Closeable {
     private final LittleEndianDataInputStream little;
     private final DataInputStream big;
 
@@ -223,5 +220,11 @@ public class EndianInputStream {
         }
 
         return builder.toString();
+    }
+
+    @Override
+    public void close() throws IOException {
+        if (isLittleEndian) little.close();
+        else big.close();
     }
 }

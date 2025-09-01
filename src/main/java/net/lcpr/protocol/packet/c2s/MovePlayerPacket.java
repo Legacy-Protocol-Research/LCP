@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 
@@ -29,6 +30,11 @@ public class MovePlayerPacket extends Packet {
     @Override
     public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeByte((onGround ? 1 : 0) | (bool3B ? 1 : 0));
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.ServerboundMovePlayerPacket;
     }
 
     /**
@@ -56,6 +62,11 @@ public class MovePlayerPacket extends Packet {
             outputStream.writeDouble(z);
             super.write(outputStream);
         }
+
+        @Override
+        public PacketType getType() {
+            return PacketType.ServerboundMovePlayerPosPacket;
+        }
     }
 
     /**
@@ -80,6 +91,11 @@ public class MovePlayerPacket extends Packet {
             outputStream.writeFloat(xRot);
             outputStream.writeFloat(yRot);
             super.write(outputStream);
+        }
+
+        @Override
+        public PacketType getType() {
+            return PacketType.ServerboundMovePlayerRotPacket;
         }
     }
 
@@ -112,6 +128,11 @@ public class MovePlayerPacket extends Packet {
             outputStream.writeFloat(xRot);
             outputStream.writeFloat(yRot);
             super.write(outputStream);
+        }
+
+        @Override
+        public PacketType getType() {
+            return PacketType.ServerboundMovePlayerPosRotPacket;
         }
     }
 }

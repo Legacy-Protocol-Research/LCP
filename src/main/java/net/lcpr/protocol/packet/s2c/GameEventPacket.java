@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 
@@ -27,6 +28,11 @@ public class GameEventPacket extends Packet {
         outputStream.writeByte(event);
         outputStream.writeFloat(param);
         outputStream.writeInt(playerIndex);
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.ClientboundGameEventPacket;
     }
 
     @Override

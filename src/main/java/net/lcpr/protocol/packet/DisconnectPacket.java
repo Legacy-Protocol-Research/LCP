@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.lcpr.protocol.types.DisconnectReason;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 
@@ -24,6 +25,11 @@ public class DisconnectPacket extends Packet {
     @Override
     public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeInt(disconnectReason.getId());
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.DisconnectPacket;
     }
 
     @Override

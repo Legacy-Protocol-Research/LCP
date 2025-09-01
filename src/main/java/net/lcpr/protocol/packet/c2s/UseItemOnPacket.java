@@ -7,6 +7,7 @@ import net.lcpr.protocol.types.Direction;
 import net.lcpr.protocol.types.InteractionHand;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 import net.lcpr.protocol.utils.Vec;
 
 import java.io.IOException;
@@ -38,5 +39,10 @@ public class UseItemOnPacket extends Packet {
         outputStream.writeByte(direction.ordinal());
         outputStream.writeByte(interactionHand.ordinal());
         Vec.f3.write(outputStream, click);
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.ServerboundUseItemOnPacket;
     }
 }

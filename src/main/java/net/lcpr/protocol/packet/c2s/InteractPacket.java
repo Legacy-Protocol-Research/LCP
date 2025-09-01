@@ -7,6 +7,7 @@ import net.lcpr.protocol.types.Action;
 import net.lcpr.protocol.types.InteractionHand;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 import net.lcpr.protocol.utils.Vec;
 
 import java.io.IOException;
@@ -44,6 +45,11 @@ public class InteractPacket extends Packet {
         if (action.equals(Action.INTERACT) || action.equals(Action.INTERACT_AT)) {
             outputStream.writeByte(interactionHand.ordinal());
         }
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.ServerboundInteractPacket;
     }
 
     @Override

@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 
@@ -33,6 +34,11 @@ public class AddExperienceOrbPacket extends Packet {
         outputStream.writeInt(y);
         outputStream.writeInt(z);
         outputStream.writeShort((short) value);
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.ClientboundAddExperienceOrbPacket;
     }
 
     @Override

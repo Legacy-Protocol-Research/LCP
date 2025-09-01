@@ -2,6 +2,7 @@ package net.lcpr.protocol.utils;
 
 import com.google.common.io.LittleEndianDataOutputStream;
 
+import java.io.Closeable;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -9,7 +10,7 @@ import java.io.OutputStream;
 /**
  * An output stream clone which supports the 2 different endian types used in LCE (Little Endian and Big Endian)
  */
-public class EndianOutputStream {
+public class EndianOutputStream implements Closeable {
     private final LittleEndianDataOutputStream little;
     private final DataOutputStream big;
 
@@ -181,5 +182,16 @@ public class EndianOutputStream {
         for (char character : s.toCharArray()) {
             writeChar(character);
         }
+    }
+
+    public void flush() throws IOException {
+        if (isLittleEndian) little.flush();
+        else big.flush();
+    }
+
+    @Override
+    public void close() throws IOException {
+        if (isLittleEndian) little.close();
+        else big.close();
     }
 }

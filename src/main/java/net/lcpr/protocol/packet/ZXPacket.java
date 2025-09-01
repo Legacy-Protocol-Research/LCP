@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 
@@ -25,6 +26,11 @@ public class ZXPacket extends Packet {
         outputStream.writeChar(field_28);
         outputStream.writeInt(x);
         outputStream.writeInt(z);
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.XZPacket;
     }
 
     @Override

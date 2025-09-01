@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 
@@ -29,5 +30,10 @@ public class ChatPacket extends Packet {
     @Override
     public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeUTF(message);
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.ServerboundChatPacket;
     }
 }

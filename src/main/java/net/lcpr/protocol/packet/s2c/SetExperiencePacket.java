@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 
@@ -41,5 +42,10 @@ public class SetExperiencePacket extends Packet {
         outputStream.writeFloat(experienceProgress);
         outputStream.writeVarInt(totalExperience);
         outputStream.writeVarInt(experienceLevel);
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.ClientboundSetExperiencePacket;
     }
 }

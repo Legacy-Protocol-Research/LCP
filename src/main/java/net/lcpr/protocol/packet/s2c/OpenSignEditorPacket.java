@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 import net.lcpr.protocol.utils.Vec;
 
 import java.io.IOException;
@@ -27,5 +28,10 @@ public class OpenSignEditorPacket extends Packet {
     @Override
     public void write(EndianOutputStream outputStream) throws IOException {
         Vec.i3.write(outputStream, pos);
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.ClientboundOpenSignEditorPacket;
     }
 }

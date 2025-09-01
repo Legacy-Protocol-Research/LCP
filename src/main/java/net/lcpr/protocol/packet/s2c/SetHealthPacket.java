@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 
@@ -50,6 +51,11 @@ public class SetHealthPacket extends Packet {
         outputStream.writeByte(dword18);
         outputStream.writeVarInt(dword1C);
         outputStream.writeVarInt(dword20);
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.ClientboundSetHealthPacket;
     }
 
     @Override

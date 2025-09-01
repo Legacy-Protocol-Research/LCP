@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 
@@ -23,6 +24,11 @@ public class PlayerReadyPacket extends Packet {
     public void write(EndianOutputStream outputStream) throws IOException {
         outputStream.writeInt((int) playerId);
         outputStream.writeBoolean(ready);
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.PlayerReadyPacket;
     }
 
     @Override

@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 
@@ -46,5 +47,10 @@ public class PlayerInputPacket extends Packet {
         if (isSneaking) out += 2;
 
         outputStream.writeByte(out);
+    }
+
+    @Override
+    public PacketType getType() {
+        return PacketType.ServerboundPlayerInputPacket;
     }
 }

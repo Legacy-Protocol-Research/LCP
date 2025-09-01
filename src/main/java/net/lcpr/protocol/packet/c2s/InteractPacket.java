@@ -7,11 +7,8 @@ import net.lcpr.protocol.types.Action;
 import net.lcpr.protocol.types.InteractionHand;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
-import net.lcpr.protocol.utils.VariableTypes;
 import net.lcpr.protocol.utils.Vec;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 @Getter
@@ -24,7 +21,7 @@ public class InteractPacket extends Packet {
 
     @Override
     public void read(EndianInputStream inputStream) throws IOException {
-        target = VariableTypes.readInt(inputStream);
+        target = inputStream.readVarInt();
         action = Action.values()[inputStream.readInt()];
         if (action.equals(Action.INTERACT_AT)) {
             location = Vec.f3.read(inputStream);
@@ -37,7 +34,7 @@ public class InteractPacket extends Packet {
 
     @Override
     public void write(EndianOutputStream outputStream) throws IOException {
-        VariableTypes.writeInt(outputStream, target);
+        outputStream.writeVarInt(target);
         outputStream.writeInt(action.ordinal());
 
         if (action.equals(Action.INTERACT_AT)) {

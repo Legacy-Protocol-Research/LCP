@@ -6,8 +6,6 @@ import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**
@@ -18,7 +16,13 @@ import java.io.IOException;
 @Getter
 @Setter
 public class PowerupPacket extends Packet {
+    /**
+     * The ID of the powerup collected
+     */
     private int powerupId;
+    /**
+     * How long the powerup applies for
+     */
     private int powerupTime;
 
     @Override

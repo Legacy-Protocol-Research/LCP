@@ -2,12 +2,9 @@ package net.lcpr.protocol.packet;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.lcpr.protocol.DataStreamUtils;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 @Getter
@@ -18,13 +15,13 @@ public class PlayerReadyPacket extends Packet {
 
     @Override
     public void read(EndianInputStream inputStream) throws IOException {
-        playerId = DataStreamUtils.readUnsignedInt(inputStream);
+        playerId = inputStream.readUnsignedInt();
         ready = inputStream.readBoolean();
     }
 
     @Override
     public void write(EndianOutputStream outputStream) throws IOException {
-        DataStreamUtils.writeUnsignedInt(outputStream, playerId);
+        outputStream.writeInt((int) playerId);
         outputStream.writeBoolean(ready);
     }
 

@@ -1,15 +1,11 @@
 package net.lcpr.protocol.packet;
 
 import lombok.Getter;
-import net.lcpr.protocol.LegacyConsoleProtocol;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
 import net.lcpr.protocol.utils.Side;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 public abstract class Packet {
     private long createdTime = System.currentTimeMillis();

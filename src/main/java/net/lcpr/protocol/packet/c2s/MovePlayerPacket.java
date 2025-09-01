@@ -6,8 +6,6 @@ import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**
@@ -17,7 +15,7 @@ import java.io.IOException;
  * @see net.lcpr.protocol.packet.c2s.MovePlayerPacket.Rot
  * @see net.lcpr.protocol.packet.c2s.MovePlayerPacket.PosRot
  */
-public abstract class MovePlayerPacket extends Packet {
+public class MovePlayerPacket extends Packet {
     private boolean onGround;
     private boolean bool3B;
 

@@ -2,12 +2,10 @@ package net.lcpr.protocol.packet;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.lcpr.protocol.utils.EndianInputStream;
-import net.lcpr.protocol.utils.EndianOutputStream;
-import net.lcpr.protocol.utils.PacketType;
-import net.lcpr.protocol.utils.Side;
+import net.lcpr.protocol.utils.*;
 
 import java.io.IOException;
+import java.util.Deque;
 
 public abstract class Packet {
     @Getter
@@ -19,6 +17,24 @@ public abstract class Packet {
      */
     @Getter
     private Side origin;
+
+    /**
+     * Reads the EndianInputStream to generate the current packet
+     * @param inputStream The EndianInputStream containing the packet data
+     * @param platform The Platform for context
+     */
+    public void read(EndianInputStream inputStream, Platform platform) throws IOException {
+        read(inputStream);
+    }
+
+    /**
+     * Writes the current packet to the EndianOutputStream
+     * @param outputStream The EndianOutputStream to be written to
+     * @param platform The Platform for context
+     */
+    public void write(EndianOutputStream outputStream, Platform platform) throws IOException {
+        write(outputStream);
+    }
 
     /**
      * Reads the EndianInputStream to generate the current packet
@@ -51,6 +67,10 @@ public abstract class Packet {
     }
 
     public boolean isAsync() {
+        return false;
+    }
+
+    public boolean tryReplaceDuplicatePacket(Deque<Packet> outgoingQueue) {
         return false;
     }
 

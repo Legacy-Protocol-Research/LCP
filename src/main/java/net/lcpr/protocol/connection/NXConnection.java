@@ -8,6 +8,7 @@ import net.lcpr.protocol.types.DisconnectReason;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
 import net.lcpr.protocol.utils.PacketType;
+import net.lcpr.protocol.utils.Platform;
 
 import java.io.*;
 import java.net.Socket;
@@ -16,50 +17,63 @@ import java.util.Deque;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
 
+@SuppressWarnings({
+        "FieldMayBeFinal" // Some fields 100% shouldn't be final, this class just isn't complete yet.
+})
 public class NXConnection implements Connection {
     private static int dword_7101786598;  // runRead
     private static int dword_710178659C;  // runWrite
 
-    private static int[] dword_71017865A0 = new int[]{256};  // read
-    private static int[] dword_71017869A0 = new int[]{256};  // write
+    private static int[] dword_71017865A0 = new int[256];  // read
+    private static int[] dword_71017869A0 = new int[256];  // write
 
-    Socket socket;
-    long remoteSocketAddress;
-    EndianInputStream dataInputStream;
-    EndianOutputStream dataOutputStream;
-    EndianOutputStream dataOutputStream2;
-    ByteArrayOutputStream byteArrayOutputStream;
-    OutputStream socketOutputStream;
-    boolean isRunning;
+    private Socket socket;
+    private long remoteSocketAddress;
+    private EndianInputStream dataInputStream;
+    private EndianOutputStream dataOutputStream;
+    private EndianOutputStream dataOutputStream2;
+    private ByteArrayOutputStream byteArrayOutputStream;
+    private OutputStream socketOutputStream;
+    private boolean isRunning;
     private ReentrantLock isRunningMutex;
-    Deque<Packet> incomingQueue;
+    private Deque<Packet> incomingQueue;
     private ReentrantLock incomingMutex;
-    Deque<Packet> outgoingQueue;
-    Deque<Packet> slowOutgoingQueue;
-    PacketListener packetListener;
-    boolean isDisconnecting;
-    boolean field_119;
-    ExecutorService runReadThread;
-    ExecutorService runWriteThread;
+    private Deque<Packet> outgoingQueue;
+    private Deque<Packet> slowOutgoingQueue;
+    private PacketListener packetListener;
+    private boolean isDisconnecting;
+    private boolean field_119;
+    private ExecutorService runReadThread;
+    private ExecutorService runWriteThread;
 //    C4JEventImpl* mC4JEventImpl1;
 //    C4JEventImpl* mC4JEventImpl2;
-//    void* qword_140;
-    boolean byte_148;
-    int dword_14c;
-//    void* qword_150;
-    int ticksSinceLastPacket;
-    int estimatedSize;
-    long field_160; // UInt
-    long field_164; // UInt
-    int fakeLag;
-    int dword_16C;
+    private Object qword_140;
+    private boolean byte_148;
+    private int dword_14c;
+    private Object qword_150;
+    private int ticksSinceLastPacket;
+    private int estimatedSize;
+    private long field_160; // UInt
+    private long field_164; // UInt
+    private int fakeLag;
+    private int dword_16C;
     private ReentrantLock countMutex;
     private ReentrantLock outgoingMutex;
     private int delay;
     private int dword_1b4;
     private long timeInMs;
 
-    public NXConnection(Socket socket, String name, PacketListener packetListener) throws IOException {
+    private final boolean isServerSided;
+
+    public NXConnection(
+            // Base connection constructor
+            Socket socket,
+            String name,
+            PacketListener packetListener,
+
+            // Other constructor parameters
+            boolean isServerSided
+    ) throws IOException {
         this.outgoingMutex = new ReentrantLock();
         this.countMutex = new ReentrantLock();
         this.incomingMutex = new ReentrantLock();
@@ -71,7 +85,7 @@ public class NXConnection implements Connection {
         this.dword_14c = 0;
         this.fakeLag = 0;
         this.delay = 0;
-//        this.qword_140 = null;
+        this.qword_140 = null;
         this.ticksSinceLastPacket = 0;
         this.estimatedSize = 0;
         this.field_160 = 0;
@@ -82,19 +96,19 @@ public class NXConnection implements Connection {
         this.slowOutgoingQueue = new ArrayDeque<>();
 
         this.socket = socket;
-//        this.remoteSocketAddress = socket.getRemoteSocketAddress(); // TODO: find a way to represent this as a long
+//        this.remoteSocketAddress = socket.getRemoteSocketAddress(); // TODO: find a way to represent this as a long, or maybe not? we could probably adapt to SocketAddress
         this.packetListener = packetListener;
 
         this.socket.setSoTimeout(30000);
         this.socket.setTrafficClass(24);
 
-        this.dataInputStream = new EndianInputStream(socket.getInputStream(), true);
+        this.dataInputStream = getPlatform().getInputStream(socket.getInputStream());
 
         this.socketOutputStream = socket.getOutputStream();
-        this.dataOutputStream = new EndianOutputStream(new BufferedOutputStream(this.socketOutputStream, 0x1400), true);
+        this.dataOutputStream = getPlatform().getOutputStream(new BufferedOutputStream(this.socketOutputStream, 0x1400));
 
         this.byteArrayOutputStream = new ByteArrayOutputStream(0x1400);
-        this.dataOutputStream2 = new EndianOutputStream(this.byteArrayOutputStream, true);
+        this.dataOutputStream2 = getPlatform().getOutputStream(this.byteArrayOutputStream);
 
         // TODO Find if needed, appears to be platform specific, but potentially only needed on the client?
 //        mC4JEventImpl1 = new C4JEventImpl(C4JEvent::EMode::_0);
@@ -103,25 +117,12 @@ public class NXConnection implements Connection {
         String readName = "%s read".formatted(name);
         String writeName = "%s write".formatted(name);
 
-        this.runReadThread = Executors.newSingleThreadExecutor(r -> {
-            Thread t = new Thread(r, readName);
-            if (t.isDaemon())
-                t.setDaemon(false);
-            if (t.getPriority() != Thread.NORM_PRIORITY)
-                t.setPriority(Thread.NORM_PRIORITY);
-            return t;
-        });
-
-        this.runWriteThread = Executors.newSingleThreadExecutor(r -> {
-            Thread t = new Thread(r, writeName);
-            if (t.isDaemon())
-                t.setDaemon(false);
-            if (t.getPriority() != Thread.NORM_PRIORITY)
-                t.setPriority(Thread.NORM_PRIORITY);
-            return t;
-        });
+        this.runReadThread = Executors.newSingleThreadExecutor(r -> new Thread(r, readName));
+        this.runWriteThread = Executors.newSingleThreadExecutor(r -> new Thread(r, writeName));
 
         this.timeInMs = 0;
+
+        this.isServerSided = isServerSided;
     }
 
     @Override
@@ -143,12 +144,12 @@ public class NXConnection implements Connection {
                 packet.setShouldDelay(false);
                 this.slowOutgoingQueue.add(packet);
             } else {
-                // TODO needed?
-//                if (packet.getType() == PacketType.ClientboundMapItemDataPacket)
-//                    if (packet->tryReplaceDuplicatePacket(&mOutgoingQueue)) {
-//                    this.outgoingMutex.unlock();
-//                    return;
-//                }
+                if (packet.getType() == PacketType.ClientboundMapItemDataPacket) {
+                    if (packet.tryReplaceDuplicatePacket(outgoingQueue)) {
+                        this.outgoingMutex.unlock();
+                        return;
+                    }
+                }
 
                 this.outgoingQueue.add(packet);
             }
@@ -213,8 +214,7 @@ public class NXConnection implements Connection {
 
             if (this.dataOutputStream != null)
                 dataOutputStream.flush();
-//            this.socketOutputStream.writeWithFlags(this.byteArrayOutputStream.buffer, 0,
-//                    mByteArrayOutputStream->size(), 1);
+            this.socketOutputStream.write(getPlatform().parseBytes(this.byteArrayOutputStream.toByteArray()), 0, this.byteArrayOutputStream.size());
             this.byteArrayOutputStream.close();
             this.byteArrayOutputStream = new ByteArrayOutputStream(0x1400);
         } else {
@@ -229,6 +229,7 @@ public class NXConnection implements Connection {
 
     @Override
     public void flush() {
+        // TODO See constructor comment on these 2
 //        mC4JEventImpl1->Set();
 //        mC4JEventImpl2->Set();
     }
@@ -266,7 +267,7 @@ public class NXConnection implements Connection {
                 close(DisconnectReason.TIMEOUT);
         }
         if ((System.currentTimeMillis() - this.timeInMs) > 1000) {
-            send(new KeepAlivePacket()); // This library isn't currently designed for client sided work, only server side
+            send(this.isServerSided ? new KeepAlivePacket() : new net.lcpr.protocol.packet.c2s.KeepAlivePacket());
         }
 
         this.incomingMutex.lock();
@@ -276,9 +277,9 @@ public class NXConnection implements Connection {
         int maxIterations = 1000;
 
         while (/*!CGameNetworkManager::sInstance.IsLeavingGame()*/true) { // TODO
-            if (/*!CGameNetworkManager::sInstance.IsInSession()*/true) // TODO
+            if (/*!CGameNetworkManager::sInstance.IsInSession()*/false) // TODO
                 break;
-            if (this.incomingQueue.size() <= 0)
+            if (this.incomingQueue.isEmpty())
                 break;
             if (maxIterations-- < 0)
                 break;
@@ -305,7 +306,7 @@ public class NXConnection implements Connection {
 
         flush();
 
-        if (this.socket != null/* && mSocket->sub_71000EA668()*/) // TODO
+        if (this.socket != null/* && this.socket.sub_71000EA668()*/) // TODO
             close(DisconnectReason.CLOSED);
         if (this.byte_148) {
             this.incomingMutex.lock();
@@ -324,12 +325,15 @@ public class NXConnection implements Connection {
             return;
         this.byte_148 = true;
         this.dword_14c = reason.getId();
-//        qword_150 = null;
+        this.qword_150 = null;
 
         if (this.dataInputStream != null)
             this.dataInputStream.close();
 
+        // These don't exist in 4J's world, the method wouldn't return a boolean, it simply doesn't care, so neither do we.
+        //noinspection ResultOfMethodCallIgnored
         this.runReadThread.awaitTermination(0xFFFFFFFFL, TimeUnit.MILLISECONDS);
+        //noinspection ResultOfMethodCallIgnored
         this.runWriteThread.awaitTermination(0xFFFFFFFFL, TimeUnit.MILLISECONDS);
 
         this.dataInputStream = null;
@@ -357,5 +361,10 @@ public class NXConnection implements Connection {
             this.isDisconnecting = true;
             this.close(DisconnectReason.CLOSED);
         }
+    }
+
+    @Override
+    public Platform getPlatform() {
+        return Platform.NX;
     }
 }

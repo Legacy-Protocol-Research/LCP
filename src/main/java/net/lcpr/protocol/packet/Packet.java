@@ -7,6 +7,9 @@ import net.lcpr.protocol.utils.*;
 import java.io.IOException;
 import java.util.Deque;
 
+/**
+ * The base class for all packets
+ */
 public abstract class Packet {
     @Getter
     private long createdTime = System.currentTimeMillis();

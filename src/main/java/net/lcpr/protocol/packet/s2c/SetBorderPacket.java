@@ -12,82 +12,83 @@ import java.io.IOException;
 @Getter
 @Setter
 public class SetBorderPacket extends Packet {
-    private int dword_28;
-    private int dword_2c;
-    private double double_30;
-    private double double_38;
-    private double double_40;
-    private double double_48;
-    private long qword_50;
-    private int dword_58;
-    private int dword_5c;
+    // These field names are assumed! They come from MCP 1.12.2, they are likely correct however.
+    private int action;
+    private int size;
+    private double centerX;
+    private double centerZ;
+    private double targetSize;
+    private double diameter;
+    private long shrinkTime;
+    private int warningTime;
+    private int warningDistance;
 
     @Override
     public void read(EndianInputStream inputStream) throws IOException {
-        dword_28 = inputStream.readInt();
-        switch (dword_28) {
+        action = inputStream.readInt();
+        switch (action) {
             case 0:
-                double_40 = inputStream.readDouble();
+                targetSize = inputStream.readDouble();
                 break;
             case 1:
-                double_48 = inputStream.readDouble();
-                double_40 = inputStream.readDouble();
-                qword_50 = inputStream.readVarLong();
+                diameter = inputStream.readDouble();
+                targetSize = inputStream.readDouble();
+                shrinkTime = inputStream.readVarLong();
                 break;
             case 2:
-                double_30 = inputStream.readDouble();
-                double_38 = inputStream.readDouble();
+                centerX = inputStream.readDouble();
+                centerZ = inputStream.readDouble();
                 break;
             case 3:
-                double_30 = inputStream.readDouble();
-                double_38 = inputStream.readDouble();
-                double_48 = inputStream.readDouble();
-                double_40 = inputStream.readDouble();
-                qword_50 = inputStream.readVarLong();
-                dword_2c = inputStream.readVarInt();
-                dword_5c = inputStream.readVarInt();
-                dword_58 = inputStream.readVarInt();
+                centerX = inputStream.readDouble();
+                centerZ = inputStream.readDouble();
+                diameter = inputStream.readDouble();
+                targetSize = inputStream.readDouble();
+                shrinkTime = inputStream.readVarLong();
+                size = inputStream.readVarInt();
+                warningDistance = inputStream.readVarInt();
+                warningTime = inputStream.readVarInt();
                 break;
             case 4:
-                dword_58 = inputStream.readVarInt();
+                warningTime = inputStream.readVarInt();
                 break;
             case 5:
-                dword_5c = inputStream.readVarInt();
+                warningDistance = inputStream.readVarInt();
                 break;
         }
     }
 
     @Override
     public void write(EndianOutputStream outputStream) throws IOException {
-        outputStream.writeInt(dword_28);
-        switch (dword_28) {
+        outputStream.writeInt(action);
+        switch (action) {
             case 0:
-                outputStream.writeDouble(double_40);
+                outputStream.writeDouble(targetSize);
                 break;
             case 1:
-                outputStream.writeDouble(double_48);
-                outputStream.writeDouble(double_40);
-                outputStream.writeVarLong(qword_50);
+                outputStream.writeDouble(diameter);
+                outputStream.writeDouble(targetSize);
+                outputStream.writeVarLong(shrinkTime);
                 break;
             case 2:
-                outputStream.writeDouble(double_30);
-                outputStream.writeDouble(double_38);
+                outputStream.writeDouble(centerX);
+                outputStream.writeDouble(centerZ);
                 break;
             case 3:
-                outputStream.writeDouble(double_30);
-                outputStream.writeDouble(double_38);
-                outputStream.writeDouble(double_48);
-                outputStream.writeDouble(double_40);
-                outputStream.writeVarLong(qword_50);
-                outputStream.writeVarInt(dword_2c);
-                outputStream.writeVarInt(dword_5c);
-                outputStream.writeVarInt(dword_58);
+                outputStream.writeDouble(centerX);
+                outputStream.writeDouble(centerZ);
+                outputStream.writeDouble(diameter);
+                outputStream.writeDouble(targetSize);
+                outputStream.writeVarLong(shrinkTime);
+                outputStream.writeVarInt(size);
+                outputStream.writeVarInt(warningDistance);
+                outputStream.writeVarInt(warningTime);
                 break;
             case 4:
-                outputStream.writeVarInt(dword_58);
+                outputStream.writeVarInt(warningTime);
                 break;
             case 5:
-                outputStream.writeVarInt(dword_5c);
+                outputStream.writeVarInt(warningDistance);
                 break;
         }
     }

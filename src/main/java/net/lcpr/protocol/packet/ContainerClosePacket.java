@@ -18,6 +18,9 @@ import java.io.IOException;
 @Getter
 @Setter
 public class ContainerClosePacket extends Packet {
+    /**
+     * The id of the container
+     */
     private byte containerId;
 
     @Override

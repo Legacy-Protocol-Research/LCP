@@ -1,14 +1,12 @@
 package net.lcpr.protocol.connection;
 
+import net.lcpr.protocol.LegacyConsoleProtocol;
 import net.lcpr.protocol.PacketListener;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.packet.c2s.PlayerActionPacket;
 import net.lcpr.protocol.packet.s2c.KeepAlivePacket;
 import net.lcpr.protocol.types.DisconnectReason;
-import net.lcpr.protocol.utils.EndianInputStream;
-import net.lcpr.protocol.utils.EndianOutputStream;
-import net.lcpr.protocol.utils.PacketType;
-import net.lcpr.protocol.utils.Platform;
+import net.lcpr.protocol.utils.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -20,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @SuppressWarnings({
         "FieldMayBeFinal" // Some fields 100% shouldn't be final, this class just isn't complete yet.
 })
-public class NXConnection implements Connection {
+public class ConnectionImpl implements Connection {
     private static int dword_7101786598;  // runRead
     private static int dword_710178659C;  // runWrite
 
@@ -64,8 +62,9 @@ public class NXConnection implements Connection {
     private long timeInMs;
 
     private final boolean isServerSided;
+    private Platform platform = Platform.NX; // TODO Determine platform on connect, perhaps using the socket? I'm sure there's something we can read to find out
 
-    public NXConnection(
+    public ConnectionImpl(
             // Base connection constructor
             Socket socket,
             String name,
@@ -114,8 +113,8 @@ public class NXConnection implements Connection {
 //        mC4JEventImpl1 = new C4JEventImpl(C4JEvent::EMode::_0);
 //        mC4JEventImpl2 = new C4JEventImpl(C4JEvent::EMode::_0);
 
-        String readName = "%s read".formatted(name);
-        String writeName = "%s write".formatted(name);
+        String readName = "%s read | %s".formatted(name, getPlatform().getConsoleName()); // EZ debuggin
+        String writeName = "%s write | %s".formatted(name, getPlatform().getConsoleName());
 
         this.runReadThread = Executors.newSingleThreadExecutor(r -> new Thread(r, readName));
         this.runWriteThread = Executors.newSingleThreadExecutor(r -> new Thread(r, writeName));
@@ -123,6 +122,7 @@ public class NXConnection implements Connection {
         this.timeInMs = 0;
 
         this.isServerSided = isServerSided;
+        this.packetListener = LegacyConsoleProtocol.getPacketListener();
     }
 
     @Override
@@ -187,7 +187,7 @@ public class NXConnection implements Connection {
             this.estimatedSize -= packet.getEstimatedSize() + 1;
             this.outgoingMutex.unlock();
 
-            Packet.writePacket(packet, this.dataOutputStream, this.field_164);
+            Packet.writePacket(packet, this.dataOutputStream, this.field_164, getPlatform());
 
             dword_71017869A0[packet.getType().getPacketId()] += packet.getEstimatedSize() + 1;
 
@@ -210,7 +210,7 @@ public class NXConnection implements Connection {
         this.outgoingMutex.unlock();
 
         if (packet.isShouldDelay()) {
-            Packet.writePacket(packet, this.dataOutputStream2, this.field_164);
+            Packet.writePacket(packet, this.dataOutputStream2, this.field_164, getPlatform());
 
             if (this.dataOutputStream != null)
                 dataOutputStream.flush();
@@ -218,7 +218,7 @@ public class NXConnection implements Connection {
             this.byteArrayOutputStream.close();
             this.byteArrayOutputStream = new ByteArrayOutputStream(0x1400);
         } else {
-            Packet.writePacket(packet, this.dataOutputStream, this.field_164);
+            Packet.writePacket(packet, this.dataOutputStream, this.field_164, getPlatform());
         }
 
         dword_71017869A0[packet.getType().getPacketId()] += packet.getEstimatedSize() + 1;
@@ -235,9 +235,9 @@ public class NXConnection implements Connection {
     }
 
     @Override
-    public boolean readTick() {
+    public boolean readTick() throws IOException {
         if (this.dataInputStream != null && !this.field_119) {
-            Packet packet = Packet.readPacket(this.dataInputStream, this.field_160, this.field_119);
+            Packet packet = Packet.readPacket(this.dataInputStream, this.field_160, this.field_119, this.isServerSided ? Side.SERVERBOUND : Side.CLIENTBOUND, getPlatform());
             if (packet != null) {
                 dword_71017865A0[packet.getType().getPacketId()] += packet.getEstimatedSize() + 1; // TODO
                 this.incomingMutex.lock();
@@ -365,6 +365,6 @@ public class NXConnection implements Connection {
 
     @Override
     public Platform getPlatform() {
-        return Platform.NX;
+        return this.platform;
     }
 }

@@ -21,7 +21,7 @@ public interface Connection {
 
     void flush();
 
-    boolean readTick();
+    boolean readTick() throws IOException;
 
     void tick() throws IOException, InterruptedException;
 

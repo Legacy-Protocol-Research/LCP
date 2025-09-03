@@ -32,7 +32,7 @@ public class ContainerClosePacket extends Packet {
 
     @Override
     public PacketType getType() {
-        return this.getOrigin().equals(Side.CLIENTBOUND) ?
+        return this.getSide().equals(Side.CLIENTBOUND) ?
                 PacketType.ClientboundContainerClosePacket :
                 PacketType.ServerboundContainerClosePacket;
     }

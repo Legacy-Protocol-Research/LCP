@@ -3,6 +3,7 @@ package net.lcpr.protocol.types;
 import net.lcpr.protocol.packet.Packet;
 import net.lcpr.protocol.utils.EndianInputStream;
 import net.lcpr.protocol.utils.EndianOutputStream;
+import net.lcpr.protocol.utils.PacketType;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,5 +73,10 @@ public class FlexiblePacket extends Packet {
         }
 
         for (Float flt : floats) outputStream.writeFloat(flt);
+    }
+
+    @Override
+    public PacketType getType() {
+        return null; // TODO ???
     }
 }

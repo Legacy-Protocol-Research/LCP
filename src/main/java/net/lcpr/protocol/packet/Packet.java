@@ -13,10 +13,10 @@ public abstract class Packet {
     @Getter @Setter
     private boolean shouldDelay = false;
     /**
-     * Which side the packet comes from, either Serverbound, or Clientbound
+     * Which side the packet is to be delivered to
      */
     @Getter
-    private Side origin;
+    private Side side;
 
     /**
      * Reads the EndianInputStream to generate the current packet
@@ -74,11 +74,22 @@ public abstract class Packet {
         return false;
     }
 
-    public static void writePacket(Packet packet, EndianOutputStream outputStream, long field_164) {
-        // TODO
+    // Assumed implementation
+    public static void writePacket(Packet packet, EndianOutputStream outputStream, long field_164, Platform platform) throws IOException {
+        // TODO write ID, figure out what the long does
+
+        packet.write(outputStream, platform);
     }
 
-    public static Packet readPacket(EndianInputStream inputStream, long field_160, boolean field_119) {
-        return null; // TODO
+    // Assumed implementation
+    public static Packet readPacket(EndianInputStream inputStream, long field_160, boolean field_119, Side destinationSide, Platform platform) throws IOException {
+        int id = 0; // TODO read ID, figure out what the long and boolean does
+        // id can probably be read from readInt or readVarInt? maybe even readByte
+
+        Packet packet = PacketType.byId(id).getPacket();
+        packet.read(inputStream);
+        packet.side = destinationSide;
+
+        return packet;
     }
 }

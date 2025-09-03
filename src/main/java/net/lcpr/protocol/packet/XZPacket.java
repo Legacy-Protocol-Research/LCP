@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @Getter
 @Setter
-public class ZXPacket extends Packet {
+public class XZPacket extends Packet {
     private char field_28;
     private int x, z;
 

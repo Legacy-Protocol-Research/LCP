@@ -15,20 +15,22 @@ import java.util.List;
  */
 @Getter
 public enum Platform {
-    XB360(false, 0), // TODO
-    XONE(true, 0), // TODO
+    XB360("Xbox 360", false, 0), // TODO
+    XONE("Xbox One", true, 0), // TODO
 
-    PS3(false, 0), // TODO
-    PSV(true, 0), // TODO
-    PS4(true, 0), // TODO
+    PS3("PlayStation 3", false, 0), // TODO
+    PSV("PlayStation Vita", true, 0), // TODO
+    PS4("PlayStation 4", true, 0), // TODO
 
-    WIIU(false, 0), // TODO
-    NX(true, 1920);
+    WIIU("Wii U", false, 0), // TODO
+    NX("Nintendo Switch", true, 1920);
 
+    private final String consoleName;
     private final boolean isLittleEndian;
     private final int latestProtocolVersion;
 
-    Platform(boolean isLittleEndian, int latestProtocolVersion) {
+    Platform(String consoleName, boolean isLittleEndian, int latestProtocolVersion) {
+        this.consoleName = consoleName;
         this.isLittleEndian = isLittleEndian;
         this.latestProtocolVersion = latestProtocolVersion;
     }

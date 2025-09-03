@@ -32,13 +32,13 @@ public class ContainerAckPacket extends Packet {
 
     @Override
     public PacketType getType() {
-        return this.getOrigin().equals(Side.CLIENTBOUND) ?
+        return this.getSide().equals(Side.CLIENTBOUND) ?
                 PacketType.ClientboundContainerAckPacket :
                 PacketType.ServerboundContainerAckPacket;
     }
 
     @Override
     public int getEstimatedSize() {
-        return this.getOrigin().equals(Side.CLIENTBOUND) ? 4 : super.getEstimatedSize();
+        return this.getSide().equals(Side.CLIENTBOUND) ? 4 : super.getEstimatedSize();
     }
 }

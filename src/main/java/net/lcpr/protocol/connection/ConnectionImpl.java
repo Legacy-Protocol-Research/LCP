@@ -110,8 +110,8 @@ public class ConnectionImpl implements Connection {
         this.dataOutputStream2 = getPlatform().getOutputStream(this.byteArrayOutputStream);
 
         // TODO Find if needed, appears to be platform specific, but potentially only needed on the client?
-//        mC4JEventImpl1 = new C4JEventImpl(C4JEvent::EMode::_0);
-//        mC4JEventImpl2 = new C4JEventImpl(C4JEvent::EMode::_0);
+//        this.mC4JEventImpl1 = new C4JEventImpl(C4JEvent.EMode._0);
+//        this.mC4JEventImpl2 = new C4JEventImpl(C4JEvent.EMode._0);
 
         String readName = "%s read | %s".formatted(name, getPlatform().getConsoleName()); // EZ debuggin
         String writeName = "%s write | %s".formatted(name, getPlatform().getConsoleName());
@@ -239,7 +239,7 @@ public class ConnectionImpl implements Connection {
         if (this.dataInputStream != null && !this.field_119) {
             Packet packet = Packet.readPacket(this.dataInputStream, this.field_160, this.field_119, this.isServerSided ? Side.SERVERBOUND : Side.CLIENTBOUND, getPlatform());
             if (packet != null) {
-                dword_71017865A0[packet.getType().getPacketId()] += packet.getEstimatedSize() + 1; // TODO
+                dword_71017865A0[packet.getType().getPacketId()] += packet.getEstimatedSize() + 1;
                 this.incomingMutex.lock();
                 if (!this.isDisconnecting)
                     this.incomingQueue.add(packet);

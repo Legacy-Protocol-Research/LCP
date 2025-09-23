@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     implementation("org.slf4j:slf4j-simple:2.0.17")
-    implementation("com.google.guava:guava:33.4.8-jre")
+    implementation("com.google.guava:guava:33.5.0-jre")
 
     compileOnly("org.projectlombok:lombok:1.18.38")
     annotationProcessor("org.projectlombok:lombok:1.18.38")

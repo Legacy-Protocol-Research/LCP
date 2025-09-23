@@ -89,7 +89,11 @@ public abstract class Packet {
         int id = 0; // TODO read ID, figure out what the long and boolean does
         // id can probably be read from readInt or readVarInt? maybe even readByte
 
-        Packet packet = PacketType.byId(id).getPacket();
+        PacketType packetType = PacketType.byId(id);
+
+        if (packetType == null) return null;
+
+        Packet packet = packetType.getPacket();
         packet.read(inputStream);
         packet.side = destinationSide;
 

@@ -5,9 +5,6 @@ import lombok.Getter;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * An enum for platforms, used for identification and to determine whether to use
@@ -89,13 +86,8 @@ public enum Platform {
      * @return parsed bytes
      */
     public byte[] parseBytes(byte[] bytes) {
-        if (isLittleEndian) { // I love little endian.
-            byte[] resultBytes = new byte[bytes.length];
-            for (int i = 0; i < bytes.length; i++) {
-                resultBytes[bytes.length - 1 - i] = bytes[i];
-            }
-            return resultBytes;
-        }
+        bytes = bytes.clone();
+        if (isLittleEndian) Bytes.reverse(bytes); // I love little endian.
         return bytes;
     }
 }

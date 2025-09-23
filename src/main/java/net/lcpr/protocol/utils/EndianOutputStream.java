@@ -122,8 +122,7 @@ public class EndianOutputStream implements Closeable {
      * @throws IOException If an I/O error occurs
      */
     public void writeVarLong(long v) throws IOException {
-        if (isLittleEndian) little.writeLong(v);
-        else big.writeLong(v);
+        // TODO
     }
 
     /**
